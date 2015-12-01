@@ -48,11 +48,18 @@ class PlgRedgitDatabase extends RedgitPlugin
 
 		$this->dumpPath = JPATH_SITE . '/flow/sql/' . $dbName . '.sql';
 
-		$command = 'mysqldump -h ' . $dbHost . ' -u ' . $dbUser
-			. ' -p' . $dbPassword
-			. ' ' . $dbName . ' > ' . $this->dumpPath;
+		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
+				. " -p'" . $dbPassword . "'"
+				. " " . $dbName . " > " . $this->dumpPath;
 
-		exec($command);
+		exec($command, $output, $result);
+
+		if ($result)
+		{
+			throw new Exception("Could not dump database: (" . $result . '): ' . implode("\n", $output));
+		}
+
+		return true;
 	}
 
 	/**
