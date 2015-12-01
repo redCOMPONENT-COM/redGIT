@@ -24,8 +24,8 @@
 					type="radio"
 					default="0"
 					class="btn-group btn-group-yesno"
-					label="PLG_REDGIT_BITBUCKET_PARAM_FIELD_DUMP_ENABLED"
-					description="PLG_REDGIT_BITBUCKET_PARAM_FIELD_DUMP_ENABLED_DESC"
+					label="PLG_REDGIT_DATABASE_PARAM_FIELD_DUMP_ENABLED"
+					description="PLG_REDGIT_DATABASE_PARAM_FIELD_DUMP_ENABLED_DESC"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -33,9 +33,11 @@
 				<field
 					name="dump_commit_message"
 					type="text"
+					class="input-xxlarge"
 					default="[sql] Latest database"
-					label="PLG_REDGIT_BITBUCKET_PARAM_FIELD_DUMP_COMMIT_MESSAGE"
-					description="PLG_REDGIT_BITBUCKET_PARAM_FIELD_DUMP_COMMIT_MESSAGE_DESC"
+					label="PLG_REDGIT_DATABASE_PARAM_FIELD_DUMP_COMMIT_MESSAGE"
+					desc="PLG_REDGIT_DATABASE_PARAM_FIELD_DUMP_COMMIT_MESSAGE_DESC"
+					hint="PLG_REDGIT_DATABASE_PARAM_FIELD_DUMP_COMMIT_MESSAGE_HINT"
 				/>
 			</fieldset>
 		</fields>
