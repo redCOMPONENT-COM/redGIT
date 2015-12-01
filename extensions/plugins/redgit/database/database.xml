@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redgit" method="upgrade">
+	<name>PLG_REDGIT_DATABASE</name>
+	<creationDate>November 2015</creationDate>
+	<author>redCOMPONENT</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<copyright>Copyright (C) 2015 redCOMPONENT.com. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later, see LICENSE.</license>
+	<version>1.0.0</version>
+	<description>PLG_REDGIT_DATABASE_XML_DESCRIPTION</description>
+
+	<files>
+		<folder>language</folder>
+		<filename>LICENSE</filename>
+		<filename plugin="database">database.php</filename>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="dump_enabled"
+					type="radio"
+					default="0"
+					class="btn-group btn-group-yesno"
+					label="PLG_REDGIT_BITBUCKET_PARAM_FIELD_DUMP_ENABLED"
+					description="PLG_REDGIT_BITBUCKET_PARAM_FIELD_DUMP_ENABLED_DESC"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="dump_commit_message"
+					type="text"
+					default="[sql] Latest database"
+					label="PLG_REDGIT_BITBUCKET_PARAM_FIELD_DUMP_COMMIT_MESSAGE"
+					description="PLG_REDGIT_BITBUCKET_PARAM_FIELD_DUMP_COMMIT_MESSAGE_DESC"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>

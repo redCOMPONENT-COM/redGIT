@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config addfieldpath="/libraries/redgit/form/field">
+	<fieldset name="global" label="COM_REDGIT_CONFIG_FIELDSET_GLOBAL">
+		<field
+			type="text"
+			name="git_repository"
+			label="COM_REDGIT_CONFIG_FIELD_GIT_REPOSITORY_LBL"
+			description="COM_REDGIT_CONFIG_FIELD_GIT_REPOSITORY_DESC"
+		/>
+		<field
+			type="text"
+			name="git_user"
+			label="COM_REDGIT_CONFIG_FIELD_GIT_USER_LBL"
+			description="COM_REDGIT_CONFIG_FIELD_GIT_USER_DESC"
+		/>
+		<field
+			type="text"
+			name="git_email"
+			label="COM_REDGIT_CONFIG_FIELD_GIT_EMAIL_LBL"
+			description="COM_REDGIT_CONFIG_FIELD_GIT_EMAIL_DESC"
+		/>
+		<field
+			type="list"
+			name="git_branch"
+			label="COM_REDGIT_CONFIG_FIELD_GIT_BRANCH_LBL"
+			description="COM_REDGIT_CONFIG_FIELD_GIT_BRANCH_DESC"
+			>
+			<option value="">JNONE</option>
+			<option value="master">COM_REDGIT_CONFIG_FIELD_GIT_BRANCH_OPTION_MASTER</option>
+			<option value="live">COM_REDGIT_CONFIG_FIELD_GIT_BRANCH_OPTION_LIVE</option>
+		</field>
+		<field
+			name="default_commit_message"
+			type="text"
+			default="[server] Latest version online"
+			label="COM_REDGIT_CONFIG_FIELD_GIT_DEFAULT_COMMIT_MESSAGE"
+			description="COM_REDGIT_CONFIG_FIELD_GIT_DEFAULT_COMMIT_MESSAGE_DESC"
+		/>
+	</fieldset>
+	<fieldset name="ssh" label="COM_REDGIT_CONFIG_FIELDSET_SSH">
+		<field
+			name="ssh_private_key"
+			type="text"
+			class="btn-group btn-group-yesno"
+			label="COM_REDGIT_CONFIG_FIELD_SSH_PRIVATE_KEY"
+			description="COM_REDGIT_CONFIG_FIELD_SSH_PRIVATE_KEY_DESC"
+			required="true"
+		/>
+	</fieldset>
+</config>

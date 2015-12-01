@@ -1,0 +1,2 @@
+# redGIT package for Joomla!  
+

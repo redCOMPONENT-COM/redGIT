@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="2.5" method="upgrade">
+	<name>COM_REDGIT</name>
+	<creationDate>November 2015</creationDate>
+	<author>redCOMPONENT</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<copyright>Copyright (C) 2015 redCOMPONENT.com. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later, see LICENSE.</license>
+	<version>0.0.1</version>
+	<description>COM_REDGIT_XML_DESCRIPTION</description>
+	<scriptfile>install.php</scriptfile>
+
+	<install folder="admin">
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install/mysql/install.sql</file>
+		</sql>
+	</install>
+	<uninstall folder="admin">
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install/mysql/uninstall.sql</file>
+		</sql>
+	</uninstall>
+	<update folder="admin">
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+
+	<files folder="site">
+		<folder>controllers</folder>
+		<folder>language</folder>
+		<filename>controller.php</filename>
+		<filename>redgit.php</filename>
+	</files>
+
+	<administration>
+		<menu img="class:banners">com_redgit</menu>
+		<files folder="admin">
+			<folder>controllers</folder>
+			<folder>language</folder>
+			<folder>sql</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>redgit.php</filename>
+		</files>
+	</administration>
+</extension>

@@ -1,0 +1,8 @@
+{
+	"components" : ["redgit"],
+	"libraries"  : ["redgit"],
+	"packages"   : ["redgit"],
+	"plugins" : {
+		"redgit" : ["bitbucket", "database"]
+	}
+}

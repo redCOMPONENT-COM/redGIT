@@ -1,0 +1,25 @@
+{
+    "name": "redCOMPONENT-COM/redGIT",
+    "type": "library",
+    "description": "Version control system for Joomla!",
+    "keywords": ["joomla", "git", "bitbucket", "github"],
+    "homepage": "https://github.com/redCOMPONENT-COM/redGIT",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "redCOMPONENT",
+            "email": "email@redcomponent.com",
+            "homepage": "http://www.redcomponent.com"
+        }
+    ],
+    "require"    : {
+        "php": ">=5.3.10",
+        "monolog/monolog": "^1.17",
+        "cpliakas/git-wrapper": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Redgit\\": "src/"
+        }
+    }
+}

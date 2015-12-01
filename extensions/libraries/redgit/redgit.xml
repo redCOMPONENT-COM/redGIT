@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="library" method="upgrade" version="2.5">
+	<name>redGIT - Library</name>
+	<libraryname>redgit</libraryname>
+	<creationDate>November 2015</creationDate>
+	<author>redCOMPONENT</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<copyright>Copyright (C) 2015 redCOMPONENT.com. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later, see LICENSE.</license>
+	<version>1.1.0</version>
+	<description>redGIT common library</description>
+	<files>
+		<folder>language</folder>
+		<folder>src</folder>
+		<folder>vendor</folder>
+		<filename>LICENSE</filename>
+		<filename>library.php</filename>
+	</files>
+</extension>

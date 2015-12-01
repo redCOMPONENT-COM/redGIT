@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="package" version="2.5" method="upgrade">
+	<name>PKG_REDGIT</name>
+	<creationDate>November 2015</creationDate>
+	<author>redCOMPONENT</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<copyright>Copyright (C) 2015 redCOMPONENT.com. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later, see LICENSE.</license>
+	<packager>redCOMPONENT</packager>
+	<packagename>redgit</packagename>
+	<packagerurl>http://www.redcomponent.com</packagerurl>
+	<version>0.0.1</version>
+	<description>PKG_REDGIT_XML_DESCRIPTION</description>
+	<scriptfile>install.php</scriptfile>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.pkg_redgit.sys.ini</language>
+	</languages>
+
+	<files>
+		<file type="component" id="com_redgit" >components/redgit</file>
+		<file type="library" id="redgit">libraries/redgit</file>
+		<file type="plugin" id="bitbucket" group="redgit" enabled="true">plugins/redgit/bitbucket</file>
+		<file type="plugin" id="database" group="redgit" enabled="true">plugins/redgit/database</file>
+	</files>
+</extension>
