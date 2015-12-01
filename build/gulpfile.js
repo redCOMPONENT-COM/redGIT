@@ -12,6 +12,8 @@ var parser     = new xml2js.Parser();
 var jgulp = requireDir('./node_modules/joomla-gulp', {recurse: true});
 var dir = requireDir('./joomla-gulp-extensions', {recurse: true});
 
+var rootPath = '../extensions';
+
 // Override of the release script
 gulp.task('release', function (cb) {
 	fs.readFile( '../extensions/pkg_redgit.xml', function(err, data) {
@@ -21,8 +23,21 @@ gulp.task('release', function (cb) {
 			var fileName = extension.name + '-v' + version + '.zip';
 
 			return gulp.src([
-					'../extensions/**/*'
-				],{ base: '../' })
+					rootPath + '/**/*',
+					'!' + rootPath + '/libraries/redgit/vendor/**/test',
+					'!' + rootPath + '/libraries/redgit/vendor/**/test/**/*',
+					'!' + rootPath + '/libraries/redgit/vendor/**/Test',
+					'!' + rootPath + '/libraries/redgit/vendor/**/Test/**/*',
+					'!' + rootPath + '/libraries/redgit/vendor/**/tests',
+					'!' + rootPath + '/libraries/redgit/vendor/**/tests/**/*',
+					'!' + rootPath + '/libraries/redgit/vendor/**/Tests',
+					'!' + rootPath + '/libraries/redgit/vendor/**/Tests/**/*',
+					'!' + rootPath + '/libraries/redgit/vendor/**/docs/**/*',
+					'!' + rootPath + '/libraries/redgit/vendor/**/docs',
+					'!' + rootPath + '/libraries/redgit/vendor/**/doc/**/*',
+					'!' + rootPath + '/libraries/redgit/vendor/**/doc',
+					'!' + rootPath + '/libraries/redgit/vendor/**/composer.*',
+				],{ base: rootPath })
 				.pipe(zip(fileName))
 				.pipe(gulp.dest('releases'))
 				.on('end', cb);
