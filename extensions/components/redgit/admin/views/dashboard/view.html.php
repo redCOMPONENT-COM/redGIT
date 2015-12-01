@@ -41,11 +41,16 @@ class RedgitViewDashboard extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$git = Application::getGit();
-
-		$git->log("-15", "--pretty=format:'%h - %s (%cr) | %an'", "--abbrev-commit", "--date=relative");
-
-		$this->gitLog = $git->getOutput();
+		try
+		{
+			$git = Application::getGit();
+			$git->log("-15", "--pretty=format:'%h - %s (%cr) | %an'", "--abbrev-commit", "--date=relative");
+			$this->gitLog = $git->getOutput();
+		}
+		catch (Exception $e)
+		{
+			$this->gitLog = $e->getMessage();
+		}
 
 		$this->addToolbar();
 
