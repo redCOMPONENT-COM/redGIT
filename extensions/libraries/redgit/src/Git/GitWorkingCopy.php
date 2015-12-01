@@ -10,6 +10,7 @@
 namespace Redgit\Git;
 
 use GitWrapper\GitWorkingCopy as GitWorkingCopyBase;
+use GitWrapper\GitException;
 
 /**
  * Customised GitWrapper
@@ -48,6 +49,30 @@ class GitWorkingCopy extends GitWorkingCopyBase
 		{
 			return $this;
 		}
+	}
+
+	/**
+	 * Method to get a setting and clear the output automatically to avoid inheriting that output
+	 *
+	 * @param   string  $settingName  Name of the setting. Example: 'user.name'
+	 *
+	 * @return  string
+	 */
+	public function getConfigSetting($settingName)
+	{
+		try
+		{
+			$this->config($settingName);
+			$value = $this->getOutput();
+		}
+		catch (GitException $e)
+		{
+			return null;
+		}
+
+		$this->clearOutput();
+
+		return $value;
 	}
 
 	/**

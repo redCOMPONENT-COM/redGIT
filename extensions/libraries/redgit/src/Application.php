@@ -159,8 +159,11 @@ abstract class Application
 
 		$git = $gitWrapper->workingCopy($repository);
 
+		$gitUserName  = $git->getConfigSetting('user.name');
+		$gitUserEmail = $git->getConfigSetting('user.email');
+
 		// User configuration not set try to set it from settings
-		if (empty($git->config('user.name')) || empty($git->config('user.email')))
+		if (empty($gitUserName) || empty($gitUserEmail))
 		{
 			$userName  = $config->get('git_user');
 			$userEmail = $config->get('git_email');
