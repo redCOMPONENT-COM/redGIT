@@ -13,4 +13,19 @@ require_once __DIR__ . '/helper.php';
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
+$canRestore = ModRedgit_DatabaseHelper::canRestore();
+$git        = ModRedgit_DatabaseHelper::getGit();
+
+if (!$git)
+{
+	echo RedgitLayoutHelper::render('redgit.station.missing-setup');
+
+	return;
+}
+
+if (!$canRestore)
+{
+	return;
+}
+
 require JModuleHelper::getLayoutPath('mod_redgit_database', $params->get('layout', 'default'));

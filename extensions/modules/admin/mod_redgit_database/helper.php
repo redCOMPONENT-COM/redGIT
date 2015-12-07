@@ -19,23 +19,33 @@ use Redgit\Application;
 abstract class ModRedgit_DatabaseHelper
 {
 	/**
-	 * Get the git log
+	 * Can this station restore database?
+	 *
+	 * @return  boolean
+	 */
+	public static function canRestore()
+	{
+		$stationConfig = Application::getStationConfiguration();
+
+		return ((int) $stationConfig->get('db_restore_enabled') === 1);
+	}
+
+	/**
+	 * Get the git instance
 	 *
 	 * @return  string
 	 */
-	public static function getGitLog()
+	public static function getGit()
 	{
 		try
 		{
 			$git = Application::getGit();
-			$git->log("-15", "--pretty=format:'%h - %s (%cr) | %an'", "--abbrev-commit", "--date=relative");
-			$log = $git->getOutput();
 		}
 		catch (Exception $e)
 		{
-			$log = $e->getMessage();
+			return null;
 		}
 
-		return $log;
+		return $git;
 	}
 }

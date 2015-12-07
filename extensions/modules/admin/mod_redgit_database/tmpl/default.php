@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 $action = JRoute::_('index.php?option=com_redgit&task=database.restore');
 ?>
-<h2><?php echo $module->title; ?></h2>
 <form action="<?php echo $action ?>" method="post" name="adminForm" id="adminForm">
-	<button class="btn btn-default" type="submit">Restore database</button>
+	<button class="btn btn-warning" type="submit" onclick="if (!confirm('<?php echo JText::_('MOD_REDGIT_DATABASE_MESSAGE_CONFIRM_RESTORE'); ?>')) return false;">
+		<?php echo JText::_('MOD_REDGIT_DATABASE_LINK_RESTORE_DATABASE'); ?>
+	</button>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
