@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" client="site" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_REDGIT</name>
+	<version>1.0</version>
+	<creationDate>November 2015</creationDate>
+	<author>redCOMPONENT.com</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>PLG_SYSTEM_REDGIT_XML_DESC</description>
+	<files>
+		<folder>language</folder>
+		<filename>LICENSE</filename>
+		<filename plugin="redgit">redgit.php</filename>
+		<filename>redgit.xml</filename>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+			</fieldset>
+		</fields>
+	</config>
+</extension>
