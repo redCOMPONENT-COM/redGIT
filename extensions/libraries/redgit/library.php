@@ -15,6 +15,8 @@ if (file_exists($composerAutoload))
 	require_once $composerAutoload;
 }
 
+JLoader::registerPrefix('Redgit', __DIR__);
+
 // Html helpers
 JHtml::addIncludePath(__DIR__ . '/html');
 

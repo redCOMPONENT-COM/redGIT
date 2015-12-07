@@ -6,17 +6,21 @@ var config = require('../../gulp-config.json');
 var browserSync = require('browser-sync');
 var del         = require('del');
 
-var componentName   = 'redgit';
-var baseTask        = 'components.' + componentName;
-var extPath         = '../extensions/components/' + componentName;
+var componentName = 'redgit';
+var baseTask      = 'components.' + componentName;
+var extPath       = '../extensions/components/' + componentName;
+var mediaPath     = extPath + '/media/com_' + componentName;
+
 var wwwFrontendPath = config.wwwDir + '/components/com_' + componentName;
 var wwwBackendPath  = config.wwwDir + '/administrator/components/com_' + componentName;
+var wwwMediaPath    = config.wwwDir + '/media/com_' + componentName;
 
 // Clean
 gulp.task('clean:' + baseTask,
 	[
 		'clean:' + baseTask + ':frontend',
-		'clean:' + baseTask + ':backend'
+		'clean:' + baseTask + ':backend',
+		'clean:' + baseTask + ':media'
 	],
 	function() {
 		return true;
@@ -32,11 +36,17 @@ gulp.task('clean:' + baseTask + ':backend', function() {
 	return del(wwwBackendPath, {force : true});
 });
 
+// Clean: media
+gulp.task('clean:' + baseTask + ':media', function() {
+	return del(wwwMediaPath, {force : true});
+});
+
 // Copy
 gulp.task('copy:' + baseTask,
 	[
 		'copy:' + baseTask + ':frontend',
-		'copy:' + baseTask + ':backend'
+		'copy:' + baseTask + ':backend',
+		'copy:' + baseTask + ':media'
 	],
 	function() {
 		return true;
@@ -60,6 +70,12 @@ gulp.task('copy:' + baseTask + ':backend', ['clean:' + baseTask + ':backend'], f
 		gulp.src(extPath + '/install.php')
 		.pipe(gulp.dest(wwwBackendPath))
 	);
+});
+
+// Copy: media
+gulp.task('copy:' + baseTask + ':media', ['clean:' + baseTask + ':media'], function() {
+	return gulp.src(mediaPath + '/**')
+		.pipe(gulp.dest(wwwMediaPath));
 });
 
 // Watch

@@ -45,10 +45,18 @@ gulp.task('copy:' + baseTask + ':library',
 	return gulp.src([
 		extPath + '/*(LICENSE|library.php)',
 		extPath + '/language/**',
+		extPath + '/layout/**',
+		extPath + '/layouts/**',
 		extPath + '/src/**',
 		extPath + '/vendor/**',
+		'!' + extPath + '/vendor/**/doc',
+		'!' + extPath + '/vendor/**/doc/**',
+		'!' + extPath + '/vendor/**/docs',
+		'!' + extPath + '/vendor/**/docs/**',
 		'!' + extPath + '/vendor/**/test',
 		'!' + extPath + '/vendor/**/test/**',
+		'!' + extPath + '/vendor/**/tests',
+		'!' + extPath + '/vendor/**/tests/**',
 		'!' + extPath + '/vendor/**/Tests',
 		'!' + extPath + '/vendor/**/Tests/**'
 	],{ base: extPath })

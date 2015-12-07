@@ -1,8 +1,12 @@
 {
 	"components" : ["redgit"],
 	"libraries"  : ["redgit"],
+	"modules"    : {
+		"backend" : ["commit", "database", "git", "remote"]
+	},
 	"packages"   : ["redgit"],
-	"plugins" : {
-		"redgit" : ["bitbucket", "database"]
+	"plugins"    : {
+		"redgit" : ["bitbucket", "database"],
+		"system" : ["redgit"]
 	}
 }
