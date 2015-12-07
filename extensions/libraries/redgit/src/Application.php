@@ -14,6 +14,8 @@ defined('_JEXEC') or die;
 use Redgit\Git\GitWrapper;
 use Monolog\Logger;
 use Redgit\Monolog\PhpfileHandler;
+use Redgit\Station\Configuration;
+use Redgit\Document;
 
 /**
  * Application class
@@ -37,6 +39,13 @@ abstract class Application
 	protected static $config;
 
 	/**
+	 * Document handling class
+	 *
+	 * @var  \Redgit\Document
+	 */
+	protected static $document = null;
+
+	/**
 	 * Git repository connection
 	 *
 	 * @var  \Redgit\Git;
@@ -51,6 +60,13 @@ abstract class Application
 	protected static $log;
 
 	/**
+	 * Current station configuration
+	 *
+	 * @var  \Redgit\Station\Configuration
+	 */
+	protected static $stationConfiguration;
+
+	/**
 	 * Get the configuration
 	 *
 	 * @return  mixed  \Joomla\Registry\Registry | JRegistry depending on the Joomla! version
@@ -63,6 +79,21 @@ abstract class Application
 		}
 
 		return static::$config;
+	}
+
+	/**
+	 * Get the active document or instance it if not loaded
+	 *
+	 * @return  \Redgit\Document
+	 */
+	public static function getDocument()
+	{
+		if (null === static::$document)
+		{
+			static::$document = new Document;
+		}
+
+		return static::$document;
 	}
 
 	/**
@@ -110,6 +141,57 @@ abstract class Application
 	}
 
 	/**
+	 * Get an instance of the active renderer
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 *
+	 * @return  RedgitLayout
+	 */
+	public static function getRenderer($layoutId = 'default')
+	{
+		$renderer = new \RedgitLayout($layoutId);
+
+		$renderer->setIncludePaths(static::getLayoutPaths());
+
+		return $renderer;
+	}
+
+	/**
+	 * Get the default layout search paths.
+	 *
+	 * @return  array
+	 */
+	public static function getLayoutPaths()
+	{
+		$app = \JFactory::getApplication();
+
+		$template  = $app->getTemplate();
+
+		return array(
+			JPATH_THEMES . '/' . $template . '/html/layouts/' . static::$component,
+			($app->isSite() ? JPATH_SITE : JPATH_ADMINISTRATOR) . '/components/' . static::$component . '/layouts',
+			JPATH_THEMES . '/' . $template . '/html/layouts',
+			JPATH_LIBRARIES . '/redgit/layouts',
+			JPATH_ROOT . '/layouts'
+		);
+	}
+
+	/**
+	 * Gets the current station configuration
+	 *
+	 * @return  \Redgit\Station\Configuration
+	 */
+	public static function getStationConfiguration()
+	{
+		if (null === static::$stationConfiguration)
+		{
+			static::$stationConfiguration = new Configuration;
+		}
+
+		return static::$stationConfiguration;
+	}
+
+	/**
 	 * Initialise the git connection
 	 *
 	 * @return  void
@@ -119,9 +201,10 @@ abstract class Application
 	protected static function initGit()
 	{
 		$config = static::getConfig();
+		$stationConfig = static::getStationConfiguration();
 		$log    = static::getLog();
 
-		$repository = $config->get('git_repository');
+		$repository = $stationConfig->get('git_repository');
 
 		if (!$repository || !is_dir($repository))
 		{
@@ -132,7 +215,7 @@ abstract class Application
 			throw new \Exception($message);
 		}
 
-		$branch = $config->get('git_branch');
+		$branch = $stationConfig->get('git_branch');
 
 		if (!$branch)
 		{
@@ -143,7 +226,7 @@ abstract class Application
 			throw new \Exception($message);
 		}
 
-		$privateKey = $config->get('ssh_private_key');
+		$privateKey = $stationConfig->get('ssh_private_key');
 
 		if (!$privateKey || !file_exists($privateKey))
 		{
