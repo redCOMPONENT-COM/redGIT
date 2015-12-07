@@ -12,9 +12,9 @@ namespace Redgit\Plugin;
 defined('_JEXEC') or die;
 
 /**
- * Bitbucket plugin for redGIT.
+ * Base plugin for redGIT.
  *
- * @since  1.0
+ * @since  1.0.0
  */
 class RedgitPlugin extends \JPlugin
 {
@@ -22,7 +22,6 @@ class RedgitPlugin extends \JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  1.0
 	 */
 	protected $autoloadLanguage = true;
 

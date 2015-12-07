@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_LIBRARIES . '/redgit/library.php';
 
 use Redgit\Plugin\RedgitPlugin;
+use Redgit\Application;
 
 /**
  * Bitbucket plugin for redGIT.
@@ -75,9 +76,9 @@ class PlgRedgitDatabase extends RedgitPlugin
 	 */
 	public function onRedgitBeforePush($context, $git, $arguments)
 	{
-		$params = $this->getParams();
+		$stationConfig = Application::getStationConfiguration();
 
-		if (!$params->get('dump_enabled'))
+		if (!$stationConfig->get('db_dump_enabled', false))
 		{
 			return true;
 		}
@@ -88,6 +89,38 @@ class PlgRedgitDatabase extends RedgitPlugin
 			$git->add($this->dumpPath);
 
 			$git->commit($params->get('dump_commit_message', '[sql] Latest database'));
+		}
+		catch (Exception $e)
+		{
+			$this->_subject->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Event to restore current database
+	 *
+	 * @param   string  $context  Context where this event is called from
+	 *
+	 * @return  boolean
+	 */
+	public function onRedgitRestoreDatabase($context)
+	{
+		$stationConfig = Application::getStationConfiguration();
+
+		if (!$stationConfig->get('db_restore_enabled', false))
+		{
+			$this->_subject->setError(JText::_('PLG_REDGIT_DATABASE_ERROR_RESTORE_IS_DISABLED_FOR_THIS_STATION'));
+
+			return false;
+		}
+
+		try
+		{
+			$this->restoreDatabase();
 		}
 		catch (Exception $e)
 		{
