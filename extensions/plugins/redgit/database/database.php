@@ -30,7 +30,9 @@ class PlgRedgitDatabase extends RedgitPlugin
 	/**
 	 * Dump the MySQL database
 	 *
-	 * @return  void
+	 * @return  boolean
+	 *
+	 * @throws  Exception  Database config was not found or there was an error
 	 */
 	protected function dumpDatabase()
 	{
@@ -65,12 +67,13 @@ class PlgRedgitDatabase extends RedgitPlugin
 	/**
 	 * Event triggered before a commit is sent
 	 *
-	 * @param   string                      $context  Context that describes where this has been triggered from
-	 * @param   \Redgit\Git\GitWorkingCopy  $git      Git stream
+	 * @param   string                      $context    Context that describes where this has been triggered from
+	 * @param   \Redgit\Git\GitWorkingCopy  $git        Git stream
+	 * @param   array                       $arguments  Arguments of the push command
 	 *
 	 * @return  boolean
 	 */
-	public function onRedgitBeforePush($context, $git)
+	public function onRedgitBeforePush($context, $git, $arguments)
 	{
 		$params = $this->getParams();
 
@@ -94,5 +97,40 @@ class PlgRedgitDatabase extends RedgitPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Restore joomla database from the latest dump
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  Exception  Error found restoring database
+	 */
+	protected function restoreDatabase()
+	{
+		$config = JFactory::getConfig();
+
+		$dbHost     = $config->get('host');
+		$dbUser     = $config->get('user');
+		$dbPassword = $config->get('password');
+		$dbName     = $config->get('db');
+
+		if (!$dbHost || !$dbUser || !$dbPassword || !$dbName)
+		{
+			throw new Exception("Could not load database information");
+		}
+
+		$this->dumpPath = JPATH_SITE . '/flow/sql/' . $dbName . '.sql';
+
+		$command = "mysql -h " . $dbHost . " -u " . $dbUser
+				. " -p'" . $dbPassword . "'"
+				. " " . $dbName . " < " . $this->dumpPath;
+
+		exec($command, $output, $result);
+
+		if ($result)
+		{
+			throw new Exception("Could not dump database: (" . $result . '): ' . implode("\n", $output));
+		}
 	}
 }

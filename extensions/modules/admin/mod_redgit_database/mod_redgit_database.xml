@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.1" client="administrator" method="upgrade">
+    <name>MOD_REDGIT_DATABASE</name>
+    <creationDate>November 2015</creationDate>
+    <author>redCOMPONENT</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redcomponent.com</authorUrl>
+    <copyright>Copyright (C) 2015 redCOMPONENT.com. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later, see LICENSE.</license>
+    <version>1.0.0</version>
+    <description>MOD_REDGIT_DATABASE_XML_DESCRIPTION</description>
+
+    <files>
+        <folder>language</folder>
+        <folder>tmpl</folder>
+        <filename>LICENSE</filename>
+		<filename>helper.php</filename>
+        <filename module="mod_redgit_database">mod_redgit_database.php</filename>
+        <filename>mod_redgit_database.xml</filename>
+    </files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="count"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
+					description="MOD_STATS_FIELD_SERVERINFO_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+				<field
+					name="siteinfo"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					label="MOD_STATS_FIELD_SITEINFO_LABEL"
+					description="MOD_STATS_FIELD_SITEINFO_DESC">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
