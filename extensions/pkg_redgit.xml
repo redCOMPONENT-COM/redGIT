@@ -10,7 +10,7 @@
 	<packager>redCOMPONENT</packager>
 	<packagename>redgit</packagename>
 	<packagerurl>http://www.redcomponent.com</packagerurl>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<description>PKG_REDGIT_XML_DESCRIPTION</description>
 	<scriptfile>install.php</scriptfile>
 
@@ -21,6 +21,13 @@
 	<files>
 		<file type="component" id="com_redgit" >components/redgit</file>
 		<file type="library" id="redgit">libraries/redgit</file>
+		<!-- Modules -->
+		<file type="module" id="mod_redgit_commit" client="admin">modules/admin/mod_redgit_commit</file>
+		<file type="module" id="mod_redgit_git" client="admin">modules/admin/mod_redgit_git</file>
+		<file type="module" id="mod_redgit_database" client="admin">modules/admin/mod_redgit_database</file>
+		<file type="module" id="mod_redgit_remote" client="admin">modules/admin/mod_redgit_remote</file>
+		<!-- Plugins -->
+		<file type="plugin" id="redgit" group="system" enabled="true">plugins/system/redgit</file>
 		<file type="plugin" id="bitbucket" group="redgit" enabled="true">plugins/redgit/bitbucket</file>
 		<file type="plugin" id="database" group="redgit" enabled="true">plugins/redgit/database</file>
 	</files>
