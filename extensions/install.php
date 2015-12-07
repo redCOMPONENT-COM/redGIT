@@ -104,10 +104,12 @@ class Pkg_RedgitInstallerScript
 	 * @param   object  $type    type of change (install, update or discover_install)
 	 * @param   object  $parent  class calling this method
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function postflight($type, $parent)
 	{
+		$this->createConfigFolders();
+
 		// Next changes will be applied only to new installations
 		if ($type == 'update')
 		{
@@ -162,6 +164,39 @@ class Pkg_RedgitInstallerScript
 				$db->setQuery($query);
 				$db->query();
 			}
+		}
+	}
+
+	/**
+	 * Create folders required by redGIT
+	 *
+	 * @return  boolean
+	 */
+	private function createConfigFolders()
+	{
+		$configFolder = JPATH_SITE . '/redgit/conf';
+
+		if (!is_dir($configFolder))
+		{
+			mkdir($configFolder, 0700, true);
+		}
+
+		$sqlFolder = JPATH_SITE . '/redgit/sql';
+
+		if (!is_dir($sqlFolder))
+		{
+			mkdir($sqlFolder, 0700, true);
+		}
+
+		$htaccessFile = JPATH_SITE . '/redgit/.htaccess';
+
+		if (!file_exists($htaccessFile))
+		{
+			$file = fopen($htaccessFile, 'w');
+
+			fwrite($file, 'deny from all');
+
+			fclose($file);
 		}
 	}
 }
