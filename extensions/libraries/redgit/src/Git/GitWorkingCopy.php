@@ -38,14 +38,16 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	 */
 	public function commit()
 	{
-		if (!$this->triggerEvent('onRedgitBeforeCommit', array('com_redgit.git.workingcopy', $this)))
+		$arguments = func_get_args();
+
+		if (!$this->triggerEvent('onRedgitBeforeCommit', null, array($arguments)))
 		{
 			return $this;
 		}
 
-		call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		call_user_func_array(array('parent', __FUNCTION__), $arguments);
 
-		if (!$this->triggerEvent('onRedgitAfterCommit', array('com_redgit.git.workingcopy', $this)))
+		if (!$this->triggerEvent('onRedgitAfterCommit', null, array($arguments)))
 		{
 			return $this;
 		}
@@ -91,14 +93,16 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	 */
 	public function pull()
 	{
-		if (!$this->triggerEvent('onRedgitBeforePull', array('com_redgit.git.workingcopy', $this)))
+		$arguments = func_get_args();
+
+		if (!$this->triggerEvent('onRedgitBeforePull', null, array($arguments)))
 		{
 			return $this;
 		}
 
-		call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		call_user_func_array(array('parent', __FUNCTION__), $arguments);
 
-		if (!$this->triggerEvent('onRedgitAfterPull', array('com_redgit.git.workingcopy', $this)))
+		if (!$this->triggerEvent('onRedgitAfterPull', null, array($arguments)))
 		{
 			return $this;
 		}
@@ -119,14 +123,46 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	 */
 	public function push()
 	{
-		if (!$this->triggerEvent('onRedgitBeforePush', array('com_redgit.git.workingcopy', $this)))
+		$arguments = func_get_args();
+
+		if (!$this->triggerEvent('onRedgitBeforePush', null, array($arguments)))
 		{
 			return $this;
 		}
 
-		call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		call_user_func_array(array('parent', __FUNCTION__), $arguments);
 
-		if (!$this->triggerEvent('onRedgitAfterPush', array('com_redgit.git.workingcopy', $this)))
+		if (!$this->triggerEvent('onRedgitAfterPush', null, array($arguments)))
+		{
+			return $this;
+		}
+	}
+
+	/**
+	 * Executes a `git reset` command.
+	 *
+	 * Reset current HEAD to the specified state.
+	 *
+	 * @code
+	 * $git->reset(array('hard' => true));
+	 * @endcode
+	 *
+	 * @return \GitWrapper\GitWorkingCopy
+	 *
+	 * @throws \GitWrapper\GitException
+	 */
+	public function reset()
+	{
+		$arguments = func_get_args();
+
+		if (!$this->triggerEvent('onRedgitBeforeReset', null, array($arguments)))
+		{
+			return $this;
+		}
+
+		call_user_func_array(array('parent', __FUNCTION__), $arguments);
+
+		if (!$this->triggerEvent('onRedgitAfterReset', null, array($arguments)))
 		{
 			return $this;
 		}
@@ -135,18 +171,21 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	/**
 	 * Trigger an event
 	 *
-	 * @param   string  $event      Event name
-	 * @param   array   $arguments  Arguments for the event being triggered
+	 * @param   string  $event    Event name
+	 * @param   string  $context  Context to send
+	 * @param   array   $params   Arguments for the event being triggered
 	 *
 	 * @return  boolean
 	 */
-	protected function triggerEvent($event, $arguments)
+	public function triggerEvent($event, $context = 'com_redgit.git.workingcopy', $params = array())
 	{
 		$dispatcher = \JEventDispatcher::getInstance();
 
 		\JPluginHelper::importPlugin('redgit');
 
-		$results = $dispatcher->trigger($event, $arguments);
+		array_unshift($params, $this);
+
+		$results = $dispatcher->trigger($event, $params);
 
 		if (count($results) && in_array(false, $results, true))
 		{
