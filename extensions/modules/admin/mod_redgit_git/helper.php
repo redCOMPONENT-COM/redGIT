@@ -16,26 +16,24 @@ use Redgit\Application;
  *
  * @since  1.0.0
  */
-abstract class ModRedgit_LogHelper
+abstract class ModRedgit_GitHelper
 {
 	/**
 	 * Get the git log
 	 *
 	 * @return  string
 	 */
-	public static function getGitLog()
+	public static function getGit()
 	{
 		try
 		{
 			$git = Application::getGit();
-			$git->log("-15", "--pretty=format:'%h - %s (%cr) | %an'", "--abbrev-commit", "--date=relative");
-			$log = $git->getOutput();
 		}
 		catch (Exception $e)
 		{
-			$log = $e->getMessage();
+			return null;
 		}
 
-		return $log;
+		return $git;
 	}
 }

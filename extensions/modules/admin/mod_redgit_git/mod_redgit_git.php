@@ -13,6 +13,13 @@ require_once __DIR__ . '/helper.php';
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
-$log = ModRedgit_LogHelper::getGitLog();
+$git = ModRedgit_GitHelper::getGit();
 
-require JModuleHelper::getLayoutPath('mod_redgit_log', $params->get('layout', 'default'));
+if (!$git)
+{
+	echo RedgitLayoutHelper::render('redgit.station.missing-setup');
+
+	return;
+}
+
+require JModuleHelper::getLayoutPath('mod_redgit_git', $params->get('layout', 'default'));
