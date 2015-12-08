@@ -88,7 +88,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 			$this->dumpDatabase();
 			$git->add($this->dumpPath);
 
-			$git->commit($params->get('dump_commit_message', '[sql] Latest database'));
+			$git->commit($this->getParams()->get('dump_commit_message', '[sql] Latest database'));
 		}
 		catch (Exception $e)
 		{
