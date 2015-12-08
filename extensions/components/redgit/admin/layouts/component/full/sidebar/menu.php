@@ -36,12 +36,10 @@ $activeView = $app->input->get('view');
 				<i class="fa fa-plug"></i> <span><?php echo JText::_('COM_REDGIT_TITLE_VIEW_STATION'); ?></span>
 			</a>
 		</li>
-		<?php /* Disabled until it's done
 		<li <?php echo $activeView == 'callbacks' ? 'class="active"' : null; ?>>
 			<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=callbacks'); ?>">
-				<i class="fa fa-users"></i> <span><?php echo JText::_('COM_REDGIT_TITLE_VIEW_CALLBACKS'); ?></span>
+				<i class="fa fa-exchange"></i> <span><?php echo JText::_('COM_REDGIT_TITLE_VIEW_CALLBACKS'); ?></span>
 			</a>
 		</li>
-		*/ ?>
 	<?php endif; ?>
 </ul>

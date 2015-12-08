@@ -40,42 +40,13 @@ class RedgitViewStation extends AbstractView
 	}
 
 	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo = JHelperContent::getActions('com_redgit');
-
-		JToolbarHelper::title(JText::_('COM_REDGIT_VIEW_DASHBOARD_TITLE'), 'database featured');
-
-		if ($this->getLayout() !== 'edit')
-		{
-			JToolbarHelper::custom('station.edit', 'edit', 'edit', JText::_('JTOOLBAR_EDIT'), false);
-		}
-		else
-		{
-			JToolbarHelper::save('station.apply');
-			JToolbarHelper::cancel('station.cancel');
-		}
-
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			JToolbarHelper::preferences('com_redgit');
-		}
-	}
-
-	/**
 	 * Get the tool-bar to render.
 	 *
 	 * @return  \Redgit\Toolbar\Toolbar
 	 */
 	public function getToolbar()
 	{
-		if ($this->getLayout() !== 'edit')
+		if ($this->getLayout() === 'edit')
 		{
 			return  $this->getEditToolbar();
 		}
@@ -84,11 +55,11 @@ class RedgitViewStation extends AbstractView
 	}
 
 	/**
-	 * Get the toolbar for the edit view
+	 * Get the default view toolbar.
 	 *
 	 * @return  \Redgit\Toolbar\Toolbar
 	 */
-	protected function getEditToolbar()
+	protected function getDefaultToolbar()
 	{
 		$user = JFactory::getUser();
 
@@ -108,11 +79,11 @@ class RedgitViewStation extends AbstractView
 	}
 
 	/**
-	 * Get the default toolbar
+	 * Get the edit view toolbar.
 	 *
 	 * @return  \Redgit\Toolbar\Toolbar
 	 */
-	protected function getDefaultToolbar()
+	protected function getEditToolbar()
 	{
 		$user = JFactory::getUser();
 

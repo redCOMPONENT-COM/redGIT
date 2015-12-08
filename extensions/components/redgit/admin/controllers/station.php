@@ -22,7 +22,6 @@ class RedgitControllerStation extends JControllerForm
 	 * The URL view list variable.
 	 *
 	 * @var    string
-	 * @since  12.2
 	 */
 	protected $view_list = 'station';
 
@@ -32,8 +31,6 @@ class RedgitControllerStation extends JControllerForm
 	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
-	 *
-	 * @since   12.2
 	 */
 	public function cancel($key = null)
 	{
@@ -106,8 +103,6 @@ class RedgitControllerStation extends JControllerForm
 	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since   12.2
 	 */
 	public function save($key = null, $urlVar = null)
 	{
