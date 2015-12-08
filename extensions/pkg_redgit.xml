@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="package" version="2.5" method="upgrade">
 	<name>PKG_REDGIT</name>
-	<creationDate>November 2015</creationDate>
+	<creationDate>December 2015</creationDate>
 	<author>redCOMPONENT</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>
@@ -10,7 +10,7 @@
 	<packager>redCOMPONENT</packager>
 	<packagename>redgit</packagename>
 	<packagerurl>http://www.redcomponent.com</packagerurl>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<description>PKG_REDGIT_XML_DESCRIPTION</description>
 	<scriptfile>install.php</scriptfile>
 
