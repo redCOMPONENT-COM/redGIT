@@ -7,7 +7,7 @@
 	<authorUrl>www.redcomponent.com</authorUrl>
 	<copyright>Copyright (C) 2015 redCOMPONENT.com. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later, see LICENSE.</license>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<description>COM_REDGIT_XML_DESCRIPTION</description>
 	<scriptfile>install.php</scriptfile>
 
@@ -39,6 +39,7 @@
 		<files folder="admin">
 			<folder>controllers</folder>
 			<folder>language</folder>
+			<folder>models</folder>
 			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
@@ -48,4 +49,8 @@
 			<filename>redgit.php</filename>
 		</files>
 	</administration>
+
+    <media folder="media">
+        <folder>com_redgit</folder>
+    </media>
 </extension>

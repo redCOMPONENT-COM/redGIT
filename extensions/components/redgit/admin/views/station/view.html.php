@@ -1,0 +1,149 @@
+<?php
+/**
+ * @package     Redgit.Backend
+ * @subpackage  View
+ *
+ * @copyright   Copyright (C) 2015 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
+
+use Redgit\Application;
+use Redgit\View\AbstractView;
+use Redgit\Toolbar\Button\ButtonGroup;
+use Redgit\Toolbar\ToolbarBuilder;
+use Redgit\Toolbar\Toolbar;
+
+/**
+ * Station View.
+ *
+ * @since  1.0.0
+ */
+class RedgitViewStation extends AbstractView
+{
+	/**
+	 * Get the data that is going to be passed to the layout
+	 *
+	 * @return  array
+	 */
+	public function getLayoutData()
+	{
+		$data = parent::getLayoutData();
+
+		$model = $this->getModel();
+
+		$data['form'] = $model->getForm();
+		$data['config'] = $model->getItem();
+
+		return $data;
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		$canDo = JHelperContent::getActions('com_redgit');
+
+		JToolbarHelper::title(JText::_('COM_REDGIT_VIEW_DASHBOARD_TITLE'), 'database featured');
+
+		if ($this->getLayout() !== 'edit')
+		{
+			JToolbarHelper::custom('station.edit', 'edit', 'edit', JText::_('JTOOLBAR_EDIT'), false);
+		}
+		else
+		{
+			JToolbarHelper::save('station.apply');
+			JToolbarHelper::cancel('station.cancel');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::preferences('com_redgit');
+		}
+	}
+
+	/**
+	 * Get the tool-bar to render.
+	 *
+	 * @return  \Redgit\Toolbar\Toolbar
+	 */
+	public function getToolbar()
+	{
+		if ($this->getLayout() !== 'edit')
+		{
+			return  $this->getEditToolbar();
+		}
+
+		return $this->getDefaultToolbar();
+	}
+
+	/**
+	 * Get the toolbar for the edit view
+	 *
+	 * @return  \Redgit\Toolbar\Toolbar
+	 */
+	protected function getEditToolbar()
+	{
+		$user = JFactory::getUser();
+
+		$firstGroup  = new ButtonGroup;
+
+		if ($user->authorise('core.admin'))
+		{
+			$new = ToolbarBuilder::createStandardButton('station.edit', 'JTOOLBAR_EDIT', '', 'icon-edit', false);
+			$firstGroup->addButton($new);
+		}
+
+		$toolbar = new Toolbar;
+		$toolbar
+			->addGroup($firstGroup);
+
+		return $toolbar;
+	}
+
+	/**
+	 * Get the default toolbar
+	 *
+	 * @return  \Redgit\Toolbar\Toolbar
+	 */
+	protected function getDefaultToolbar()
+	{
+		$user = JFactory::getUser();
+
+		$group1  = new ButtonGroup;
+		$group2  = new ButtonGroup;
+
+		if ($user->authorise('core.admin'))
+		{
+			$new = ToolbarBuilder::createSaveButton('station.save');
+			$group1->addButton($new);
+			$new = ToolbarBuilder::createCancelButton('station.cancel');
+			$group2->addButton($new);
+		}
+
+		$toolbar = new Toolbar;
+		$toolbar
+			->addGroup($group1)
+			->addGroup($group2);
+
+		return $toolbar;
+	}
+
+	/**
+	 * Get the view title.
+	 *
+	 * @return  string  The view title.
+	 */
+	public function getTitle()
+	{
+		$config = Application::getStationConfiguration();
+
+		return JText::sprintf('COM_REDGIT_STATION_LABEL_CONFIGURATION', $config->getHostname());
+	}
+}
