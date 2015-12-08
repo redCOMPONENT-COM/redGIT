@@ -25,6 +25,8 @@ if (!$git)
 
 if (!$canRestore)
 {
+	echo JText::_('LIB_REDGIT_STATION_MSG_NO_ACTIONS_AVAILABLE');
+
 	return;
 }
 
