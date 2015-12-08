@@ -20,6 +20,7 @@ extract($displayData);
  * @var   \Redgit\Station\Configuration  $config  Current station configuration
  */
 ?>
+<div class="alert alert-info"><?php echo JText::_('LIB_REDGIT_STATION_MSG_RECOMMENDED_PERMISSIONS'); ?></div>
 <div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
