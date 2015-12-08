@@ -15,11 +15,10 @@ $view  = $displayData['view'];
 $app   = JFactory::getApplication();
 $input = $app->input;
 $doc   = JFactory::getDocument();
-die('aaa');
+
 // Load a custom CSS option for this component if exists
 if ($comOption = $input->get('option', null))
 {
-	die('aaa');
 	AssetHelper::load(($app->isAdmin() ? 'admin' : 'site') . '.min.css', $comOption);
 }
 

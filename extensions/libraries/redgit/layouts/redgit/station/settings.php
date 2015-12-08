@@ -35,4 +35,8 @@ extract($displayData);
 	<dd><?php echo $config->get('db_dump_enabled') ? JText::_('JYES') : JText::_('JNO'); ?></dd>
 	<dt><?php echo JText::_('LIB_REDGIT_STATION_FIELD_DB_RESTORE_ENABLED'); ?>:</dt>
 	<dd><?php echo $config->get('db_restore_enabled') ? JText::_('JYES') : JText::_('JNO'); ?></dd>
+	<dt><?php echo JText::_('LIB_REDGIT_STATION_FIELD_GIT_PULL_ENABLED'); ?>:</dt>
+	<dd><?php echo $config->get('git_pull_enabled') ? JText::_('JYES') : JText::_('JNO'); ?></dd>
+	<dt><?php echo JText::_('LIB_REDGIT_STATION_FIELD_GIT_PUSH_ENABLED'); ?>:</dt>
+	<dd><?php echo $config->get('git_push_enabled') ? JText::_('JYES') : JText::_('JNO'); ?></dd>
 </dl>
