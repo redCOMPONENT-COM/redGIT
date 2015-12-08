@@ -200,6 +200,8 @@ abstract class Application
 	 */
 	protected static function initGit()
 	{
+		static::$git = false;
+
 		$config = static::getConfig();
 		$stationConfig = static::getStationConfiguration();
 		$log    = static::getLog();
@@ -237,10 +239,39 @@ abstract class Application
 			throw new \Exception($message);
 		}
 
-		$gitWrapper = new GitWrapper;
-		$gitWrapper->setPrivateKey($privateKey);
+		$sshPort = (int) $stationConfig->get('ssh_port');
 
-		$git = $gitWrapper->workingCopy($repository);
+		if (!$sshPort)
+		{
+			$sshPort = 22;
+		}
+
+		$binWrapperPath = $stationConfig->get('ssh_wrapper_folder');
+
+		if (empty($binWrapperPath))
+		{
+			$binWrapperPath = null;
+		}
+		else
+		{
+			$binWrapperPath .= '/git-ssh-wrapper.sh';
+		}
+
+		try
+		{
+			$gitWrapper = new GitWrapper;
+			$gitWrapper->setPrivateKey($privateKey, $sshPort, $binWrapperPath);
+
+			$git = $gitWrapper->workingCopy($repository);
+		}
+		catch (\GitWrapper\GitException $e)
+		{
+			$message = 'Exception initialising Git: ' . $e->getMessage();
+
+			$log->addError($message);
+
+			throw new \Exception($message);
+		}
 
 		$gitUserName  = $git->getConfigSetting('user.name');
 		$gitUserEmail = $git->getConfigSetting('user.email');

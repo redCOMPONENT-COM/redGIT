@@ -21,7 +21,7 @@ extract($displayData);
  */
 ?>
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-5">
 		<div class="form-group">
 			<?php
 				echo $form->getLabel('git_branch');
@@ -29,11 +29,19 @@ extract($displayData);
 			?>
 		</div>
 	</div>
-	<div class="col-md-6">
+	<div class="col-md-5">
 		<div class="form-group">
 			<?php
 				echo $form->getLabel('default_commit_message');
 				echo $form->getInput('default_commit_message');
+			?>
+		</div>
+	</div>
+	<div class="col-md-2">
+		<div class="form-group">
+			<?php
+				echo $form->getLabel('ssh_port');
+				echo $form->getInput('ssh_port');
 			?>
 		</div>
 	</div>

@@ -41,7 +41,7 @@ $action = JRoute::_('index.php?option=com_redgit&view=station');
 			<div id="permissions" class="tab-pane">
 				<?php echo RedgitLayoutHelper::render('redgit.station.form.permissions', $displayData); ?>
 			</div>
-		</div><!-- /.tab-content -->
+		</div>
 	</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

@@ -38,3 +38,9 @@ extract($displayData);
 		</div>
 	</div>
 </div>
+<div class="form-group">
+	<?php
+		echo $form->getLabel('ssh_wrapper_folder');
+		echo $form->getInput('ssh_wrapper_folder');
+	?>
+</div>

@@ -55,6 +55,23 @@
 			required="true"
 			class="form-control"
 		/>
+		<field
+			name="ssh_port"
+			type="text"
+			label="LIB_REDGIT_STATION_FIELD_SSH_PORT"
+			description="LIB_REDGIT_STATION_FIELD_SSH_PORT_DESC"
+			default="22"
+			required="true"
+			class="form-control"
+		/>
+		<field
+			name="ssh_wrapper_folder"
+			type="text"
+			label="LIB_REDGIT_STATION_FIELD_SSH_WRAPPER_FOLDER"
+			description="LIB_REDGIT_STATION_FIELD_SSH_WRAPPER_FOLDER_DESC"
+			hint="LIB_REDGIT_STATION_FIELD_SSH_WRAPPER_FOLDER_HINT"
+			class="form-control"
+		/>
 	</fieldset>
 	<fieldset name="permissions" label="LIB_REDGIT_STATION_FIELDSET_PERMISSIONS">
 		<field
