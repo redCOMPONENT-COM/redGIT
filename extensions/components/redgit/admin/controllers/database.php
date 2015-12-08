@@ -35,11 +35,11 @@ class RedgitControllerDatabase extends JControllerLegacy
 		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('redgit');
 
-		$result = $dispatcher->trigger('onRedgitRestoreDatabase', array('com_redgit.admin.restore', $data));
+		$result = $dispatcher->trigger('onRedgitRestoreDatabase', array('com_redgit.admin.restore'));
 
 		if (in_array(false, $result, true))
 		{
-			throw new Exception($dispatcher->getError(), 500);
+			JFactory::getApplication()->enqueueMessage($dispatcher->getError(), 'error');
 		}
 
 		$this->setRedirect('index.php?option=com_redgit&view=dashboard');
