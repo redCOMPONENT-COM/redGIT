@@ -23,4 +23,11 @@ if (!$git || !$stationConfiguration)
 	return;
 }
 
+if ((int) $stationConfiguration->get('git_push_enabled', 0) === 0)
+{
+	echo JText::_('LIB_REDGIT_STATION_MSG_NO_ACTIONS_AVAILABLE');
+
+	return;
+}
+
 require JModuleHelper::getLayoutPath('mod_redgit_commit', $params->get('layout', 'default'));
