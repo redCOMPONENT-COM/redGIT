@@ -18,6 +18,11 @@ extract($displayData);
  */
 
 $data = new JRegistry($item->data);
+$createdDate = $this->escape($item->created_date);
+
+$timeZone = JFactory::getUser()->getParam('timezone', 'UTC');
+$date = JDate::getInstance($createdDate, $timeZone);
+
 ?>
 <div class="nav-tabs-custom">
 	<ul class="nav nav-tabs">
@@ -27,6 +32,8 @@ $data = new JRegistry($item->data);
 	<div class="tab-content">
 		<div id="details" class="tab-pane active">
 			<dl class="dl-horizontal">
+				<dt><?php echo JText::_('LIB_REDGIT_CALLBACK_FIELD_DATE'); ?>:</dt>
+				<dd><?php echo $date->toSql(); ?></dd>
 				<dt><?php echo JText::_('LIB_REDGIT_CALLBACK_FIELD_REMOTE_IP'); ?>:</dt>
 				<dd><?php echo $this->escape($item->remote_ip); ?></dd>
 				<dt><?php echo JText::_('LIB_REDGIT_CALLBACK_FIELD_PLUGIN'); ?>:</dt>
