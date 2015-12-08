@@ -10,51 +10,28 @@
 defined('_JEXEC') or die;
 
 use Redgit\Application;
+use Redgit\View\AbstractView;
 
 /**
  * Dashboard View.
  *
  * @since  1.0.0
  */
-class RedgitViewDashboard extends JViewLegacy
+class RedgitViewDashboard extends AbstractView
 {
 	/**
-	 * Enviroment options
+	 * Get the data that is going to be passed to the layout
 	 *
-	 * @var  array
+	 * @return  array
 	 */
-	protected $envopts = array();
-
-	/**
-	 * Git log
-	 *
-	 * @var  string
-	 */
-	public $gitLog;
-
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The template file to use
-	 *
-	 * @return  string
-	 */
-	public function display($tpl = null)
+	public function getLayoutData()
 	{
-		try
-		{
-			$git = Application::getGit();
-			$git->log("-15", "--pretty=format:'%h - %s (%cr) | %an'", "--abbrev-commit", "--date=relative");
-			$this->gitLog = $git->getOutput();
-		}
-		catch (Exception $e)
-		{
-			$this->gitLog = $e->getMessage();
-		}
+		$data = parent::getLayoutData();
 
-		$this->addToolbar();
+		$data['mainModules'] = JModuleHelper::getModules('redgit-dashboard-main');
+		$data['sidebarModules'] = JModuleHelper::getModules('redgit-dashboard-sidebar');
 
-		return parent::display($tpl);
+		return $data;
 	}
 
 	/**

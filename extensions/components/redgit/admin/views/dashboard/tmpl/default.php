@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     RedITEM.Backend
- * @subpackage  Template
+ * @package     Redgit.Backend
+ * @subpackage  Layout
  *
  * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -11,18 +11,26 @@ defined('_JEXEC') or die;
 
 use Redgit\Application;
 
-$component = JFactory::getApplication()->input->get('option');
+extract($displayData);
 
-$action = JRoute::_('index.php?option=' . $component . '&task=git.commit');
+/**
+ * Layout variables
+ * ------------------
+ * @var   array  $mainModules     Modules to display in the main area
+ * @var   array  $sidebarModules  Modules to display in the sidebar
+ */
 ?>
+<div class="row">
+	<div class="col-md-8">
+		<?php foreach ($mainModules as $module) : ?>
+			<?php echo RedgitLayoutHelper::render('redgit.module.box', compact('module')); ?>
+		<?php endforeach; ?>
+	</div>
+	<div class="col-md-4 dashboard-sidebar">
+		<?php foreach ($sidebarModules as $module) : ?>
+			<?php echo RedgitLayoutHelper::render('redgit.module.box', compact('module')); ?>
+		<?php endforeach; ?>
+	</div>
+</div>
 
-<p>Latest git activity:</p>
-<pre><?php echo $this->gitLog; ?> </pre>
-<form action="<?php echo $action ?>" method="post" name="adminForm" id="adminForm">
-	<fieldset>
-		<label for="message">Commit message:</label>
-		<input id="message" type="text" class="span6" name="message" value="<?php echo Application::getConfig()->get('default_commit_message', '[server] Latest version online'); ?>" />
-	</fieldset>
-	<button class="btn btn-primary" type="submit">Dump database &amp; commit changes</button>
-	<?php echo JHtml::_('form.token'); ?>
-</form>
+
