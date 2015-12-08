@@ -40,14 +40,14 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	{
 		$arguments = func_get_args();
 
-		if (!$this->triggerEvent('onRedgitBeforeCommit', 'com_redgit.git.workingcopy', array($arguments)))
+		if (!$this->triggerEvent('onRedgitBeforeCommit', null, array($arguments)))
 		{
 			return $this;
 		}
 
 		call_user_func_array(array('parent', __FUNCTION__), $arguments);
 
-		if (!$this->triggerEvent('onRedgitAfterCommit', 'com_redgit.git.workingcopy', array($arguments)))
+		if (!$this->triggerEvent('onRedgitAfterCommit', null, array($arguments)))
 		{
 			return $this;
 		}
@@ -95,14 +95,14 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	{
 		$arguments = func_get_args();
 
-		if (!$this->triggerEvent('onRedgitBeforePull', 'com_redgit.git.workingcopy', array($arguments)))
+		if (!$this->triggerEvent('onRedgitBeforePull', null, array($arguments)))
 		{
 			return $this;
 		}
 
 		call_user_func_array(array('parent', __FUNCTION__), $arguments);
 
-		if (!$this->triggerEvent('onRedgitAfterPull', 'com_redgit.git.workingcopy', array($arguments)))
+		if (!$this->triggerEvent('onRedgitAfterPull', null, array($arguments)))
 		{
 			return $this;
 		}
@@ -125,14 +125,14 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	{
 		$arguments = func_get_args();
 
-		if (!$this->triggerEvent('onRedgitBeforePush', 'com_redgit.git.workingcopy', array($arguments)))
+		if (!$this->triggerEvent('onRedgitBeforePush', null, array($arguments)))
 		{
 			return $this;
 		}
 
 		call_user_func_array(array('parent', __FUNCTION__), $arguments);
 
-		if (!$this->triggerEvent('onRedgitAfterPush', 'com_redgit.git.workingcopy', array($arguments)))
+		if (!$this->triggerEvent('onRedgitAfterPush', null, array($arguments)))
 		{
 			return $this;
 		}
@@ -155,14 +155,14 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	{
 		$arguments = func_get_args();
 
-		if (!$this->triggerEvent('onRedgitBeforeReset', 'com_redgit.git.workingcopy', array($arguments)))
+		if (!$this->triggerEvent('onRedgitBeforeReset', null, array($arguments)))
 		{
 			return $this;
 		}
 
 		call_user_func_array(array('parent', __FUNCTION__), $arguments);
 
-		if (!$this->triggerEvent('onRedgitAfterReset', 'com_redgit.git.workingcopy', array($arguments)))
+		if (!$this->triggerEvent('onRedgitAfterReset', null, array($arguments)))
 		{
 			return $this;
 		}
@@ -177,8 +177,13 @@ class GitWorkingCopy extends GitWorkingCopyBase
 	 *
 	 * @return  boolean
 	 */
-	public function triggerEvent($event, $context, $params = array())
+	public function triggerEvent($event, $context = null, $params = array())
 	{
+		if (null === $context)
+		{
+			$context = 'com_redgit.git.workingcopy';
+		}
+
 		$dispatcher = \JEventDispatcher::getInstance();
 
 		\JPluginHelper::importPlugin('redgit');
