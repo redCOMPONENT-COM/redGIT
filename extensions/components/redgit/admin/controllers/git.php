@@ -44,13 +44,13 @@ class RedgitControllerGit extends JControllerLegacy
 
 				$message = $app->input->getString(
 					'message',
-					Application::getStationConfig()->get('default_commit_message', '[server] Latest version online')
+					Application::getStationConfiguration()->get('default_commit_message', '[server] Latest version online')
 				);
 
 				$git->commit($message);
 			}
 
-			$git->push('origin', Application::getStationConfig()->get('git_branch', 'master'));
+			$git->push('origin', Application::getStationConfiguration()->get('git_branch', 'master'));
 		}
 		catch (Exception $e)
 		{
@@ -88,7 +88,7 @@ class RedgitControllerGit extends JControllerLegacy
 
 			if ($git->hasChanges())
 			{
-				//throw new Exception("You have changes not committed", 403);
+				throw new Exception("You have changes not committed", 403);
 			}
 
 			$git->pull('origin', Application::getStationConfiguration()->get('git_branch', 'master'));
