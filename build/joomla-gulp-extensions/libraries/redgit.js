@@ -57,8 +57,11 @@ gulp.task('copy:' + baseTask + ':library',
 		'!' + extPath + '/vendor/**/test/**',
 		'!' + extPath + '/vendor/**/tests',
 		'!' + extPath + '/vendor/**/tests/**',
+		'!' + extPath + '/vendor/**/Test',
+		'!' + extPath + '/vendor/**/Test/**',
 		'!' + extPath + '/vendor/**/Tests',
-		'!' + extPath + '/vendor/**/Tests/**'
+		'!' + extPath + '/vendor/**/Tests/**',
+		'!' + extPath + '/vendor/**/composer.json'
 	],{ base: extPath })
 	.pipe(gulp.dest(wwwPath));
 });
