@@ -49,7 +49,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new Exception("Could not load database information");
 		}
 
-		$this->dumpPath = JPATH_SITE . '/flow/sql/' . $dbName . '.sql';
+		$this->dumpPath = $this->getSqlFolder() . '/' . $dbName . '.sql';
 
 		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
 				. " -p'" . $dbPassword . "'"
@@ -63,6 +63,18 @@ class PlgRedgitDatabase extends RedgitPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the folder where SQL files will be stored.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.0.3
+	 */
+	protected function getSqlFolder()
+	{
+		return JPATH_SITE . '/redgit/sql';
 	}
 
 	/**
@@ -153,7 +165,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new Exception("Could not load database information");
 		}
 
-		$this->dumpPath = JPATH_SITE . '/flow/sql/' . $dbName . '.sql';
+		$this->dumpPath = $this->getSqlFolder() . '/' . $dbName . '.sql';
 
 		$command = "mysql -h " . $dbHost . " -u " . $dbUser
 				. " -p'" . $dbPassword . "'"
