@@ -20,8 +20,16 @@ defined('_JEXEC') or die;
 		</div>
 		<div id="log" class="tab-pane">
 			<?php
-				$git->log("-15", "--pretty=format:'%h - %s (%cr) | %an'", "--abbrev-commit", "--date=relative");
-				$log = $git->getOutput();
+				try
+				{
+					$git->log("-15", "--pretty=format:'%h - %s (%cr) | %an'", "--abbrev-commit", "--date=relative");
+					$log = $git->getOutput();
+				}
+				catch (Exception $e)
+				{
+					$log = $e->getMessage();
+				}
+
 				$git->clearOutput();
 			?>
 			<pre><?php echo $log; ?></pre>
