@@ -279,8 +279,8 @@ abstract class Application
 		// User configuration not set try to set it from settings
 		if (empty($gitUserName) || empty($gitUserEmail))
 		{
-			$userName  = $config->get('git_user');
-			$userEmail = $config->get('git_email');
+			$userName  = $stationConfig->get('git_user');
+			$userEmail = $stationConfig->get('git_email');
 
 			if (!$userName || !$userEmail)
 			{
