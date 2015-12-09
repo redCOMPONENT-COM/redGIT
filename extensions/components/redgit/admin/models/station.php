@@ -84,6 +84,17 @@ class RedgitModelStation extends JModelAdmin
 	{
 		$stationConfig = Application::getStationConfiguration();
 
-		return $stationConfig->save(new JRegistry($data));
+		try
+		{
+			$stationConfig->save(new JRegistry($data));
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
 	}
 }

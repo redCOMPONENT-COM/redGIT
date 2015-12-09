@@ -120,31 +120,35 @@ class Configuration
 	 */
 	public function save($config = null)
 	{
-		if ($config instanceof JRegistry || $config instanceof \Joomla\Registry\Registry)
+		if ($config instanceof \JRegistry || $config instanceof \Joomla\Registry\Registry)
 		{
 			$this->merge($config);
 		}
 
 		$content = $this->config->toString('ini');
+		$configFolder = dirname($this->getConfigurationFilePath());
+
+		if (1 == 1 || !is_dir($configFolder) && !mkdir($configFolder, 0755, true))
+		{
+			throw new \Exception('Unable to create configuration folder');
+		}
 
 		$file = fopen($this->getConfigurationFilePath(), 'w');
 
 		if ($file === false)
 		{
-			$this->setError('Unable to save station configuration');
-
-			return false;
+			throw new \Exception('Unable to save station configuration');
 		}
 
 		$result = fwrite($file, $content);
 
 		if ($result === false)
 		{
-			$this->setError('Unable to save station configuration');
+			throw new \Exception('Unable to save station configuration');
 		}
 
 		fclose($file);
 
-		return $result ? true : false;
+		return true;
 	}
 }

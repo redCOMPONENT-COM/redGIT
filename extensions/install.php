@@ -178,14 +178,14 @@ class Pkg_RedgitInstallerScript
 
 		if (!is_dir($configFolder))
 		{
-			mkdir($configFolder, 0700, true);
+			mkdir($configFolder, 0755, true);
 		}
 
 		$sqlFolder = JPATH_SITE . '/redgit/sql';
 
 		if (!is_dir($sqlFolder))
 		{
-			mkdir($sqlFolder, 0700, true);
+			mkdir($sqlFolder, 0755, true);
 		}
 
 		$htaccessFile = JPATH_SITE . '/redgit/.htaccess';
