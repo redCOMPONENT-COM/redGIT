@@ -128,7 +128,7 @@ class Configuration
 		$content = $this->config->toString('ini');
 		$configFolder = dirname($this->getConfigurationFilePath());
 
-		if (1 == 1 || !is_dir($configFolder) && !mkdir($configFolder, 0755, true))
+		if (!is_dir($configFolder) && !mkdir($configFolder, 0755, true))
 		{
 			throw new \Exception('Unable to create configuration folder');
 		}
