@@ -7,7 +7,7 @@
     <authorUrl>www.redcomponent.com</authorUrl>
     <copyright>Copyright (C) 2015 redCOMPONENT.com. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later, see LICENSE.</license>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>MOD_REDGIT_DATABASE_XML_DESCRIPTION</description>
 
     <files>
@@ -21,30 +21,6 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field
-					name="count"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
-					description="MOD_STATS_FIELD_SERVERINFO_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
-				<field
-					name="siteinfo"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_STATS_FIELD_SITEINFO_LABEL"
-					description="MOD_STATS_FIELD_SITEINFO_DESC">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
