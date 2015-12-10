@@ -86,11 +86,6 @@ class RedgitControllerGit extends JControllerLegacy
 
 			$git = Application::getGit();
 
-			if ($git->hasChanges())
-			{
-				throw new Exception("You have changes not committed", 403);
-			}
-
 			$git->pull('origin', Application::getStationConfiguration()->get('git_branch', 'master'));
 		}
 		catch (Exception $e)
@@ -101,5 +96,11 @@ class RedgitControllerGit extends JControllerLegacy
 
 			return false;
 		}
+
+		JFactory::getApplication()->enqueueMessage($git->getOutput());
+
+		$this->setRedirect('index.php?option=com_redgit&view=dashboard');
+
+		return true;
 	}
 }
