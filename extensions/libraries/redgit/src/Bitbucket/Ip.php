@@ -33,7 +33,13 @@ class Ip
 	protected $validIpRanges = array(
 		'131.103.20.160/27',
 		'165.254.145.0/26',
-		'104.192.143.0/24'
+		'104.192.143.0/24',
+		/**
+		 * Since 15/12/2015
+		 * https://blog.bitbucket.org/2015/12/03/making-bitbuckets-network-better-faster-and-ready-to-grow/
+		 */
+		'104.192.143.192/28',
+		'104.192.143.208/28'
 	);
 
 	/**
