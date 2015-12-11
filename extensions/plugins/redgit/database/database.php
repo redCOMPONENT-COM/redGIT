@@ -165,6 +165,16 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new Exception("Could not load database information");
 		}
 
+		// Empty database first to
+		try
+		{
+			$this->emptyDatabase();
+		}
+		catch (Exception $e)
+		{
+			throw new Exception($e->getMessage());
+		}
+
 		$this->dumpPath = $this->getSqlFolder() . '/' . $dbName . '.sql';
 
 		$command = "mysql -h " . $dbHost . " -u " . $dbUser
@@ -177,5 +187,45 @@ class PlgRedgitDatabase extends RedgitPlugin
 		{
 			throw new Exception("Could not dump database: (" . $result . '): ' . implode("\n", $output));
 		}
+	}
+
+	/**
+	 * Drop all the database tables
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  RuntimeException  Something went wrong
+	 */
+	private function emptyDatabase()
+	{
+		$db = JFactory::getDbo();
+
+		$db->setQuery('SET foreign_key_checks = 0;')->execute();
+
+		// Get the tables in the database.
+		$tables = $db->getTableList();
+
+		if ($tables)
+		{
+			foreach ($tables as $table)
+			{
+				try
+				{
+					$db->dropTable($table);
+				}
+				catch (RuntimeException $e)
+				{
+					$message = JText::sprintf('PLG_REDGIT_DATABASE_ERROR_DROPPING_TABLE', $table);
+
+					throw new RuntimeException($message);
+
+					return false;
+				}
+			}
+		}
+
+		$db->setQuery('SET foreign_key_checks = 1;')->execute();
+
+		return true;
 	}
 }
