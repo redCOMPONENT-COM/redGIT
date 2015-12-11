@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="redgit" method="upgrade">
 	<name>PLG_REDGIT_DATABASE</name>
-	<creationDate>November 2015</creationDate>
+	<creationDate>December 2015</creationDate>
 	<author>redCOMPONENT</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>
 	<copyright>Copyright (C) 2015 redCOMPONENT.com. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later, see LICENSE.</license>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<description>PLG_REDGIT_DATABASE_XML_DESCRIPTION</description>
 
 	<files>
