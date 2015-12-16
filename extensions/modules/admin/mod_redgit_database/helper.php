@@ -23,6 +23,18 @@ abstract class ModRedgit_DatabaseHelper
 	 *
 	 * @return  boolean
 	 */
+	public static function canDump()
+	{
+		$stationConfig = Application::getStationConfiguration();
+
+		return ((int) $stationConfig->get('db_dump_enabled') === 1);
+	}
+
+	/**
+	 * Can this station restore database?
+	 *
+	 * @return  boolean
+	 */
 	public static function canRestore()
 	{
 		$stationConfig = Application::getStationConfiguration();

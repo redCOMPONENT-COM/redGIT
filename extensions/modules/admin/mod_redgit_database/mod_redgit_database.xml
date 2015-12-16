@@ -18,6 +18,11 @@
         <filename module="mod_redgit_database">mod_redgit_database.php</filename>
         <filename>mod_redgit_database.xml</filename>
     </files>
+
+	<media folder="media">
+		<folder>mod_redgit_database</folder>
+	</media>
+
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

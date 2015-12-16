@@ -13,6 +13,7 @@ require_once __DIR__ . '/helper.php';
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
+$canDump    = ModRedgit_DatabaseHelper::canDump();
 $canRestore = ModRedgit_DatabaseHelper::canRestore();
 $git        = ModRedgit_DatabaseHelper::getGit();
 
@@ -23,7 +24,7 @@ if (!$git)
 	return;
 }
 
-if (!$canRestore)
+if (!$canRestore && !$canDump)
 {
 	echo JText::_('LIB_REDGIT_STATION_MSG_NO_ACTIONS_AVAILABLE');
 
