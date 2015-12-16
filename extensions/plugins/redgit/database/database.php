@@ -53,7 +53,8 @@ class PlgRedgitDatabase extends RedgitPlugin
 
 		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
 				. " -p'" . $dbPassword . "'"
-				. " " . $dbName . " > " . $this->dumpPath;
+				. " --default-character-set=utf8"
+				. " " . $dbName . " --result-file=" . $this->dumpPath;
 
 		exec($command, $output, $result);
 
@@ -98,9 +99,57 @@ class PlgRedgitDatabase extends RedgitPlugin
 		try
 		{
 			$this->dumpDatabase();
+
 			$git->add($this->dumpPath);
 
 			$git->commit($this->getParams()->get('dump_commit_message', '[sql] Latest database'));
+		}
+		catch (Exception $e)
+		{
+			$this->_subject->setError($e->getMessage());
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Event to dump current database
+	 *
+	 * @param   string   $context  Context where this event is called from
+	 * @param   boolean  $push     Push changes to remote server?
+	 *
+	 * @return  boolean
+	 */
+	public function onRedgitDumpDatabase($context, $push = false)
+	{
+		$stationConfig = Application::getStationConfiguration();
+
+		if (!$stationConfig->get('db_dump_enabled', false))
+		{
+			$this->_subject->setError(JText::_('PLG_REDGIT_DATABASE_ERROR_DUMP_IS_DISABLED_FOR_THIS_STATION'));
+
+			return false;
+		}
+
+		try
+		{
+			$this->dumpDatabase();
+
+			$git = Application::getGit();
+
+			$git->commit(
+				$this->dumpPath,
+				array(
+					'm' => $this->getParams()->get('dump_commit_message', '[sql] Latest database')
+				)
+			);
+
+			if ($push)
+			{
+				$git->push('origin', $stationConfig->get('git_branch', 'master'));
+			}
 		}
 		catch (Exception $e)
 		{
@@ -179,6 +228,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 
 		$command = "mysql -h " . $dbHost . " -u " . $dbUser
 				. " -p'" . $dbPassword . "'"
+				. " --default-character-set=utf8"
 				. " " . $dbName . " < " . $this->dumpPath;
 
 		exec($command, $output, $result);
