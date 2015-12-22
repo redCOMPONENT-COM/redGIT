@@ -49,12 +49,12 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new Exception("Could not load database information");
 		}
 
-		$this->dumpPath = $this->getSqlFolder() . '/' . $dbName . '.sql';
+		$dumpPath = $this->getDumpPath();
 
 		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
 				. " -p'" . $dbPassword . "'"
 				. " --default-character-set=utf8"
-				. " " . $dbName . " --result-file=" . $this->dumpPath;
+				. " " . $dbName . " --result-file=" . $dumpPath;
 
 		exec($command, $output, $result);
 
@@ -64,18 +64,6 @@ class PlgRedgitDatabase extends RedgitPlugin
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get the folder where SQL files will be stored.
-	 *
-	 * @return  string
-	 *
-	 * @since   1.0.3
-	 */
-	protected function getSqlFolder()
-	{
-		return JPATH_SITE . '/redgit/sql';
 	}
 
 	/**
@@ -100,7 +88,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 		{
 			$this->dumpDatabase();
 
-			$git->add($this->dumpPath);
+			$git->add($this->getDumpPath());
 
 			$git->commit($this->getParams()->get('dump_commit_message', '[sql] Latest database'));
 		}
@@ -139,12 +127,9 @@ class PlgRedgitDatabase extends RedgitPlugin
 
 			$git = Application::getGit();
 
-			$git->commit(
-				$this->dumpPath,
-				array(
-					'm' => $this->getParams()->get('dump_commit_message', '[sql] Latest database')
-				)
-			);
+			$git->add($this->getDumpPath());
+
+			$git->commit($this->getParams()->get('dump_commit_message', '[sql] Latest database'));
 
 			if ($push)
 			{
@@ -214,6 +199,13 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new Exception("Could not load database information");
 		}
 
+		$dumpPath = $this->getDumpPath();
+
+		if (!file_exists($dumpPath))
+		{
+			throw new Exception("Dump file does not exist");
+		}
+
 		// Empty database first to
 		try
 		{
@@ -224,12 +216,10 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new Exception($e->getMessage());
 		}
 
-		$this->dumpPath = $this->getSqlFolder() . '/' . $dbName . '.sql';
-
 		$command = "mysql -h " . $dbHost . " -u " . $dbUser
 				. " -p'" . $dbPassword . "'"
 				. " --default-character-set=utf8"
-				. " " . $dbName . " < " . $this->dumpPath;
+				. " " . $dbName . " < " . $dumpPath;
 
 		exec($command, $output, $result);
 
@@ -277,5 +267,40 @@ class PlgRedgitDatabase extends RedgitPlugin
 		$db->setQuery('SET foreign_key_checks = 1;')->execute();
 
 		return true;
+	}
+
+	/**
+	 * Get the path to the database dump.
+	 *
+	 * @return  string
+	 *
+	 * @throws  Exception  If db name is not set or dump folder does not exist
+	 *
+	 * @since   1.0.7
+	 */
+	protected function getDumpPath()
+	{
+		if (null === $this->dumpPath)
+		{
+			$config = JFactory::getConfig();
+
+			$dbName = $config->get('db');
+
+			if (!$dbName)
+			{
+				throw new Exception("Could not load database information");
+			}
+
+			$dumpFolder = JPATH_SITE . '/redgit/sql';
+
+			if (!is_dir($dumpFolder) && !mkdir($dumpFolder, 0755, true))
+			{
+				throw new Exception("Dump folder does not exist");
+			}
+
+			$this->dumpPath = $dumpFolder . '/' . $dbName . '.sql';
+		}
+
+		return $this->dumpPath;
 	}
 }
