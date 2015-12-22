@@ -18,6 +18,11 @@
         <filename module="mod_redgit_commit">mod_redgit_commit.php</filename>
         <filename>mod_redgit_commit.xml</filename>
     </files>
+
+	<media folder="media">
+		<folder>mod_redgit_commit</folder>
+	</media>
+
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
