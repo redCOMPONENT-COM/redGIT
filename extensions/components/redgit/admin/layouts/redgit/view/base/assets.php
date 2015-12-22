@@ -21,7 +21,7 @@ $doc   = Application::getDocument();
 if ($comOption = $input->get('option', null))
 {
 	AssetHelper::load(($app->isAdmin() ? 'backend' : 'site') . '.min.css', $comOption);
-	AssetHelper::load(($app->isAdmin() ? 'backend' : 'site') . '.min.js', $comOption);
+	$doc->addTopScript(JUri::root(true) . '/media/com_redgit/js/backend.js');
 }
 
 // Move the message to the specified position

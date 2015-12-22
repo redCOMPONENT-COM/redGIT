@@ -33,6 +33,20 @@ class Document
 	protected static $disabledStylesheets = array();
 
 	/**
+	 * Scripts that will be injected on top
+	 *
+	 * @var  array
+	 */
+	protected static $topScripts = array();
+
+	/**
+	 * Stylesheets that will be injected on top
+	 *
+	 * @var  array
+	 */
+	protected static $topStylesheets = array();
+
+	/**
 	 * Adds a linked script to the page
 	 * This forces always use scripts versions
 	 *
@@ -52,6 +66,52 @@ class Document
 	}
 
 	/**
+	 * Add a script to the top of the document scripts
+	 *
+	 * @param   string   $url    URL to the linked script
+	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer  Adds the defer attribute.
+	 * @param   boolean  $async  Adds the async attribute.
+	 *
+	 * @return  self
+	 */
+	public function addTopScript($url, $type = "text/javascript", $defer = false, $async = false)
+	{
+		$script = array(
+			'mime' => $type,
+			'defer' => $defer,
+			'async' => $async
+		);
+
+		static::$topScripts[$url] = $script;
+
+		return $this;
+	}
+
+	/**
+	 * Add a script to the top of the document scripts
+	 *
+	 * @param   string  $url      URL to the linked style sheet
+	 * @param   string  $type     Mime encoding type
+	 * @param   string  $media    Media type that this stylesheet applies to
+	 * @param   array   $attribs  Array of attributes
+	 *
+	 * @return  self
+	 */
+	public function addTopStylesheet($url, $type = 'text/css', $media = null, $attribs = array())
+	{
+		$stylesheet = array(
+			'mime'    => $type,
+			'media'   => $media,
+			'attribs' => $attribs
+		);
+
+		static::$topStylesheets[$url] = $stylesheet;
+
+		return $this;
+	}
+
+	/**
 	 * Clean header assets
 	 *
 	 * @return  void
@@ -60,6 +120,8 @@ class Document
 	{
 		$this->cleanHeaderScripts();
 		$this->cleanHeaderStylesheets();
+		$this->injectTopScripts();
+		$this->injectTopStylesheets();
 	}
 
 	/**
@@ -258,6 +320,44 @@ class Document
 		}
 
 		return str_replace($fileName, $uncompressedFileName, $assetPath);
+	}
+
+	/**
+	 * Injects the pending scripts on the top of the scripts
+	 *
+	 * @return  self
+	 */
+	protected function injectTopScripts()
+	{
+		if (empty(static::$topScripts))
+		{
+			return true;
+		}
+
+		$doc = \JFactory::getDocument();
+
+		$doc->_scripts = array_merge(static::$topScripts, $doc->_scripts);
+
+		return $this;
+	}
+
+	/**
+	 * Injects the top stylesheets on the top of the document stylesheets
+	 *
+	 * @return  self
+	 */
+	protected function injectTopStylesheets()
+	{
+		if (empty(static::$topStylesheets))
+		{
+			return true;
+		}
+
+		$doc = \JFactory::getDocument();
+
+		$doc->_styleSheets = array_merge(static::$topStylesheets, $doc->_styleSheets);
+
+		return $this;
 	}
 
 	/**
