@@ -11,6 +11,7 @@
 	<version>1.1.6</version>
 	<description>redGIT common library</description>
 	<files>
+		<folder>cli</folder>
 		<folder>language</folder>
 		<folder>layout</folder>
 		<folder>layouts</folder>

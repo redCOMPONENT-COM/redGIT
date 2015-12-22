@@ -106,11 +106,12 @@ class PlgRedgitDatabase extends RedgitPlugin
 	 * Event to dump current database
 	 *
 	 * @param   string   $context  Context where this event is called from
+	 * @param   boolean  $commit   Commit database after creating the dump?
 	 * @param   boolean  $push     Push changes to remote server?
 	 *
 	 * @return  boolean
 	 */
-	public function onRedgitDumpDatabase($context, $push = false)
+	public function onRedgitDumpDatabase($context, $commit = true, $push = false)
 	{
 		$stationConfig = Application::getStationConfiguration();
 
@@ -125,15 +126,18 @@ class PlgRedgitDatabase extends RedgitPlugin
 		{
 			$this->dumpDatabase();
 
-			$git = Application::getGit();
-
-			$git->add($this->getDumpPath());
-
-			$git->commit($this->getParams()->get('dump_commit_message', '[sql] Latest database'));
-
-			if ($push)
+			if ($commit)
 			{
-				$git->push('origin', $stationConfig->get('git_branch', 'master'));
+				$git = Application::getGit();
+
+				$git->add($this->getDumpPath());
+
+				$git->commit($this->getParams()->get('dump_commit_message', '[sql] Latest database'));
+
+				if ($push)
+				{
+					$git->push('origin', $stationConfig->get('git_branch', 'master'));
+				}
 			}
 		}
 		catch (Exception $e)

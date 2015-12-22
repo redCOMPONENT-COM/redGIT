@@ -44,6 +44,7 @@ gulp.task('copy:' + baseTask + ':library',
 	['clean:' + baseTask + ':library'], function() {
 	return gulp.src([
 		extPath + '/*(LICENSE|library.php)',
+		extPath + '/cli/**',
 		extPath + '/language/**',
 		extPath + '/layout/**',
 		extPath + '/layouts/**',
