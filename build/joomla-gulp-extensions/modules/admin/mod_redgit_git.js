@@ -56,7 +56,8 @@ gulp.task('copy:' + baseTask,
 gulp.task('copy:' + baseTask + ':module', ['clean:' + baseTask + ':module'], function() {
 	return gulp.src([
 			extPath + '/**',
-			'!' + extPath + '/media'
+			'!' + extPath + '/media',
+			'!' + extPath + '/media/**'
 		])
 		.pipe(gulp.dest(wwwPath));
 });
