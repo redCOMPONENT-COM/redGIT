@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-
 /**
  * Base class for rendering a display layout
  *
@@ -22,7 +20,7 @@ class RedgitLayoutBase implements RedgitLayoutInterface
 	/**
 	 * Options object
 	 *
-	 * @var    Registry
+	 * @var    JRegistry
 	 * @since  3.2
 	 */
 	protected $options = null;
@@ -46,7 +44,7 @@ class RedgitLayoutBase implements RedgitLayoutInterface
 	/**
 	 * Set the options
 	 *
-	 * @param   array|Registry  $options  Array / Registry object with the options to load
+	 * @param   array|JRegistry  $options  Array / JRegistry object with the options to load
 	 *
 	 * @return  JLayoutBase  Instance of $this to allow chaining.
 	 *
@@ -55,18 +53,18 @@ class RedgitLayoutBase implements RedgitLayoutInterface
 	public function setOptions($options = null)
 	{
 		// Received Registry
-		if ($options instanceof Registry)
+		if ($options instanceof JRegistry || $options instanceof \Joomla\Registry\Registry)
 		{
 			$this->options = $options;
 		}
 		// Received array
 		elseif (is_array($options))
 		{
-			$this->options = new Registry($options);
+			$this->options = new JRegistry($options);
 		}
 		else
 		{
-			$this->options = new Registry;
+			$this->options = new JRegistry;
 		}
 
 		return $this;

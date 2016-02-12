@@ -381,20 +381,21 @@ class Document
 			$relativeScript = trim(str_replace($uri->getPath(), '', $script), '/');
 			$relativeUrl    = str_replace($relativePath, '', $script);
 
-			$mediaVersion = $doc->getMediaVersion();
-
 			// Try to disable relative and full URLs
 			unset($doc->_scripts[$script]);
-			unset($doc->_scripts[$script . '?' . $mediaVersion]);
-
 			unset($doc->_scripts[$relativeUrl]);
-			unset($doc->_scripts[$relativeUrl . '?' . $mediaVersion]);
-
 			unset($doc->_scripts[rtrim(\JUri::root(true), '/') . '/' . $script]);
-			unset($doc->_scripts[rtrim(\JUri::root(true), '/') . '/' . $script . '?' . $mediaVersion]);
-
 			unset($doc->_scripts[$relativeScript]);
-			unset($doc->_scripts[$relativeScript . '?' . $mediaVersion]);
+
+			if (method_exists($doc, 'getMediaVersion'))
+			{
+				$mediaVersion = $doc->getMediaVersion();
+
+				unset($doc->_scripts[$script . '?' . $mediaVersion]);
+				unset($doc->_scripts[$relativeUrl . '?' . $mediaVersion]);
+				unset($doc->_scripts[rtrim(\JUri::root(true), '/') . '/' . $script . '?' . $mediaVersion]);
+				unset($doc->_scripts[$relativeScript . '?' . $mediaVersion]);
+			}
 		}
 	}
 
@@ -418,20 +419,21 @@ class Document
 			$relativeStylesheet = trim(str_replace($uri->getPath(), '', $stylesheet), '/');
 			$relativeUrl    = str_replace($relativePath, '', $stylesheet);
 
-			$mediaVersion = $doc->getMediaVersion();
-
 			// Try to disable relative and full URLs
 			unset($doc->_styleSheets[$stylesheet]);
-			unset($doc->_styleSheets[$stylesheet . '?' . $mediaVersion]);
-
 			unset($doc->_styleSheets[$relativeUrl]);
-			unset($doc->_styleSheets[$relativeUrl . '?' . $mediaVersion]);
-
 			unset($doc->_styleSheets[rtrim(\JUri::root(true), '/') . '/' . $stylesheet]);
-			unset($doc->_styleSheets[rtrim(\JUri::root(true), '/') . '/' . $stylesheet . '?' . $mediaVersion]);
-
 			unset($doc->_styleSheets[$relativeStylesheet]);
-			unset($doc->_styleSheets[$relativeStylesheet . '?' . $mediaVersion]);
+
+			if (method_exists($doc, 'getMediaVersion'))
+			{
+				$mediaVersion = $doc->getMediaVersion();
+
+				unset($doc->_styleSheets[$stylesheet . '?' . $mediaVersion]);
+				unset($doc->_styleSheets[$relativeUrl . '?' . $mediaVersion]);
+				unset($doc->_styleSheets[rtrim(\JUri::root(true), '/') . '/' . $stylesheet . '?' . $mediaVersion]);
+				unset($doc->_styleSheets[$relativeStylesheet . '?' . $mediaVersion]);
+			}
 		}
 	}
 
