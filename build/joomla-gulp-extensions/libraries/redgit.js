@@ -9,6 +9,7 @@ var del         = require('del');
 var baseTask     = 'libraries.redgit';
 var extPath      = '../extensions/libraries/redgit';
 var manifestFile = 'redgit.xml';
+var wwwManifestsFolder = config.wwwDir + '/administrator/manifests/libraries';
 var wwwPath      = config.wwwDir + '/libraries/redgit';
 
 // Clean
@@ -27,7 +28,7 @@ gulp.task('clean:' + baseTask + ':library', function(cb) {
 
 // Clean: manifest
 gulp.task('clean:' + baseTask + ':manifest', function(cb) {
-	return del(config.wwwDir + '/administrator/manifests/libraries/' + manifestFile, {force : true}, cb);
+	return del(wwwManifestsFolder + '/' + manifestFile, {force : true});
 });
 
 // Copy

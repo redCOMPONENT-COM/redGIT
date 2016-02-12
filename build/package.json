@@ -1,6 +1,6 @@
 {
   "name": "redGIT",
-  "version": "0.0.1",
+  "version": "1.0.8",
   "description": "Version control system for Joomla!",
   "main": "gulpfile.js",
   "directories": {

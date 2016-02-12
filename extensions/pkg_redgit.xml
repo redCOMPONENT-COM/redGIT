@@ -10,13 +10,19 @@
 	<packager>redCOMPONENT</packager>
 	<packagename>redgit</packagename>
 	<packagerurl>http://www.redcomponent.com</packagerurl>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<description>PKG_REDGIT_XML_DESCRIPTION</description>
 	<scriptfile>install.php</scriptfile>
 
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.pkg_redgit.sys.ini</language>
 	</languages>
+
+	<update>
+		<scripts>
+			<folder>updates</folder>
+		</scripts>
+	</update>
 
 	<files>
 		<file type="component" id="com_redgit" >components/redgit</file>
