@@ -34,8 +34,12 @@ $doc->addScriptDeclaration("
 ");
 
 // Disable template shit
-$doc->disableStylesheet('administrator/templates/isis/css/template.css');
-$doc->disableScript('administrator/templates/isis/js/template.js');
+$template = JFactory::getApplication()->getTemplate();
+
+$doc->disableStylesheet('administrator/templates/' . $template . '/css/template.css');
+$doc->disableStylesheet('templates/' . $template . '/css/template.css');
+$doc->disableScript('administrator/templates/' . $template . '/js/template.js');
+$doc->disableScript('templates/' . $template . '/js/template.js');
 
 // Disable core things
 $doc->disableScript('media/jui/js/jquery.min.js');
