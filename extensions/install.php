@@ -32,6 +32,51 @@ class Pkg_RedgitInstallerScript
 	protected $manifest;
 
 	/**
+	 * Version installed.
+	 *
+	 * @var    string
+	 * @since  1.0.8
+	 */
+	protected $installedVersion;
+
+	/**
+	 * List of update scripts
+	 *
+	 * @var    array
+	 * @since  1.0.8
+	 */
+	private $updateScripts;
+
+	/**
+	 * Get the element of this extension from class name.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.0.8
+	 */
+	private function getElement()
+	{
+		return strtolower(str_replace('InstallerScript', '', get_called_class()));
+	}
+
+	/**
+	 * Get the current installed version.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.0.8
+	 */
+	private function getInstalledVersion()
+	{
+		if (null === $this->installedVersion)
+		{
+			$this->loadInstalledVersion();
+		}
+
+		return $this->installedVersion;
+	}
+
+	/**
 	 * Get the common JInstaller instance used to install all the extensions
 	 *
 	 * @return JInstaller The JInstaller object
@@ -64,6 +109,125 @@ class Pkg_RedgitInstallerScript
 	}
 
 	/**
+	 * Get the path to the base updates folder
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  string
+	 *
+	 * @since   1.0.8
+	 */
+	private function getUpdatesFolder($parent)
+	{
+		$element = $this->getManifest($parent)->xpath('//update');
+
+		if (!$element)
+		{
+			return null;
+		}
+
+		$element = reset($element);
+
+		$updatesFolder = $parent->getParent()->getPath('source');
+
+		$folder = (string) $element->attributes()->folder;
+
+		if ($folder && file_exists($updatesFolder . '/' . $folder))
+		{
+			$updatesFolder = $updatesFolder . '/' . $folder;
+		}
+
+		return $updatesFolder;
+	}
+
+	/**
+	 * Get the instances of applicable update scripts
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  array
+	 *
+	 * @since   1.0.8
+	 */
+	private function getUpdateScripts($parent)
+	{
+		if (null !== $this->updateScripts)
+		{
+			return $this->updateScripts;
+		}
+
+		$this->updateScripts = array();
+
+		// Require the base script installer if it doesn't exist. Only there from v1.0.8.
+		$baseScript = $parent->getParent()->getPath('source') . '/libraries/redgit/installer/update.php';
+
+		if (file_exists($baseScript))
+		{
+			require_once $baseScript;
+		}
+
+		$manifest = $this->getManifest($parent);
+
+		$newVersion = (string) $manifest->version;
+
+		$baseUpdatesFolder = $this->getUpdatesFolder($parent);
+
+		if (!$baseUpdatesFolder)
+		{
+			return $this->updateScripts;
+		}
+
+		$updateFolders = $manifest->xpath('//update/scripts/folder');
+
+		$updateFiles = array();
+
+		// Collects all update files from the update folders
+		foreach ($updateFolders as $updateFolder)
+		{
+			$updateFolder = (string) $updateFolder;
+
+			$updateFolderPath = $baseUpdatesFolder . '/' . $updateFolder;
+
+			if (!$fileNames = JFolder::files($updateFolderPath))
+			{
+				continue;
+			}
+
+			foreach ($fileNames as $fileName)
+			{
+				$version = basename($fileName, '.php');
+				$updateFiles[$version] = $updateFolderPath . '/' . $fileName;
+			}
+		}
+
+		// Sort the files in ascending order
+		uksort($updateFiles, 'version_compare');
+
+		$currentVersion = $this->getInstalledVersion();
+
+		foreach ($updateFiles as $version => $path)
+		{
+			if (version_compare($version, $currentVersion) <= 0)
+			{
+				continue;
+			}
+
+			require_once $path;
+
+			$updateClassName = 'UpdateTo' . str_replace('.', '', $version);
+
+			if (class_exists($updateClassName))
+			{
+				$this->updateScripts[] = new $updateClassName($this->getInstaller());
+			}
+
+			$currentVersion = $version;
+		}
+
+		return $this->updateScripts;
+	}
+
+	/**
 	 * Shit happens. Patched function to bypass bug in package uninstaller
 	 *
 	 * @param   JInstallerAdapter  $parent  Parent object
@@ -83,9 +247,7 @@ class Pkg_RedgitInstallerScript
 			return;
 		}
 
-		$rootPath = $parent->getParent()->getPath('extension_root');
-		$manifestPath = dirname($rootPath);
-		$manifestFile = $manifestPath . '/' . $element . '.xml';
+		$manifestFile = __DIR__ . '/' . $element . '.xml';
 
 		// Package manifest found
 		if (file_exists($manifestFile))
@@ -96,6 +258,42 @@ class Pkg_RedgitInstallerScript
 		}
 
 		$this->manifest = $parent->get('manifest');
+	}
+
+	/**
+	 * Load the installed version from the database.
+	 *
+	 * @return  self
+	 *
+	 * @since   1.0.8
+	 */
+	private function loadInstalledVersion()
+	{
+		// Reads current (old) version from manifest
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->select($db->qn('e.manifest_cache'))
+			->from($db->qn('#__extensions', 'e'))
+			->where('e.element = ' . $db->q($this->getElement()));
+
+		$db->setQuery($query);
+
+		$manifest = $db->loadResult();
+
+		if (!$manifest)
+		{
+			return $this;
+		}
+
+		$manifest = json_decode($manifest);
+
+		if (!is_object($manifest) || !property_exists($manifest, 'version'))
+		{
+			return $this;
+		}
+
+		$this->installedVersion = (string) $manifest->version;
 	}
 
 	/**
@@ -113,10 +311,34 @@ class Pkg_RedgitInstallerScript
 		// Next changes will be applied only to new installations
 		if ($type == 'update')
 		{
+			// Run update scripts
+			$this->runUpdateScriptsMethod($parent, 'postflight');
+
 			return;
 		}
 
 		return $this->enablePlugins($parent);
+	}
+
+	/**
+	 * Method to run before an install/update/uninstall method
+	 *
+	 * @param   object  $type    type of change (install, update or discover_install)
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.8
+	 */
+	public function preflight($type, $parent)
+	{
+		$this->registerNamespace($parent);
+
+		if ($type == "update")
+		{
+			// Run update scripts
+			$this->runUpdateScriptsMethod($parent, 'preflight');
+		}
 	}
 
 	/**
@@ -198,5 +420,53 @@ class Pkg_RedgitInstallerScript
 
 			fclose($file);
 		}
+	}
+
+	/**
+	 * Register our namespace if it does not exist
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0.8
+	 */
+	private function registerNamespace($parent)
+	{
+		$path = $parent->getParent()->getPath('source') . '/libraries/redgit/src';
+
+		$loader = new \Composer\Autoload\ClassLoader;
+
+		$loader->setPsr4('Redgit\\', $path);
+		$loader->register(true);
+	}
+
+	/**
+	 * Runs the update for the given version.
+	 *
+	 * @param   object  $parent  class calling this method
+	 * @param   string  $method  Method to run from the update scripts
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.8
+	 *
+	 * @throws  RuntimeException  If something goes wrong in the method
+	 */
+	private function runUpdateScriptsMethod($parent, $method)
+	{
+		$updateScripts = $this->getUpdateScripts($parent);
+
+		foreach ($updateScripts as $updateScript)
+		{
+			if (!method_exists($updateScript, $method))
+			{
+				continue;
+			}
+
+			$updateScript->$method($parent);
+		}
+
+		return true;
 	}
 }
