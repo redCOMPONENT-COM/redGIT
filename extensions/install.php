@@ -48,6 +48,137 @@ class Pkg_RedgitInstallerScript
 	private $updateScripts;
 
 	/**
+	 * Creates a dashboard mod_redgit_git module.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.8
+	 */
+	private function createDasboardCommitModule()
+	{
+		$moduleData = array(
+			'title'     => 'Commit',
+			'content'   => '',
+			'module'    => 'mod_redgit_commit',
+			'access'    => '1',
+			'showtitle' => '1',
+			'position'  => 'redgit-dashboard-sidebar',
+			'params'    => '',
+			'client_id' => 1,
+			'published' => 1,
+			'language'  => '*',
+			'ordering'  => 1,
+			'params'    => array(
+				'header_tag' => 'h4',
+				'moduleclass_sfx' => ''
+			)
+		);
+
+		return $this->createModule($moduleData, 0);
+	}
+
+	/**
+	 * Creates a dashboard mod_redgit_git module.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.8
+	 */
+	private function createDasboardGitModule()
+	{
+		$moduleData = array(
+			'title'     => 'Git',
+			'content'   => '',
+			'module'    => 'mod_redgit_git',
+			'access'    => '1',
+			'showtitle' => '1',
+			'position'  => 'redgit-dashboard-main',
+			'params'    => '',
+			'client_id' => 1,
+			'published' => 1,
+			'language'  => '*',
+			'ordering'  => 1,
+			'params'    => array(
+				'header_tag' => 'h4',
+				'moduleclass_sfx' => ''
+			)
+		);
+
+		return $this->createModule($moduleData, 0);
+	}
+
+	/**
+	 * Creates the default dashboard modules
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.8
+	 */
+	private function createDashboardModules()
+	{
+		return $this->createDasboardGitModule() && $this->createDasboardCommitModule();
+	}
+
+	/**
+	 * Create a module
+	 *
+	 * @param   array    $moduleData  Data to bind to the module table
+	 * @param   integer  $itemId      Menu item id to attach the module. null for none | 0 for backend
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.8
+	 */
+	private function createModule($moduleData, $itemId = null)
+	{
+		$table = JTable::getInstance('module');
+
+		if (!$table->save($moduleData))
+		{
+			return false;
+		}
+
+		if (null !== $itemId)
+		{
+			return $this->createModuleMenu($table->id, $itemId);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Creates a link for a module on specific itemId.
+	 *
+	 * @param   integer  $moduleId  Module identifier
+	 * @param   integer  $itemId    Menu item id. 0 for backend
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.8
+	 */
+	private function createModuleMenu($moduleId, $itemId = 0)
+	{
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->insert($db->quoteName('#__modules_menu'))
+			->columns(
+				array(
+					$db->quoteName('moduleid'),
+					$db->quoteName('menuid')
+				)
+			)
+			->values(
+				(int) $moduleId . ','
+				. $itemId
+			);
+
+		$db->setQuery($query);
+
+		return $db->execute() ? true : false;
+	}
+
+	/**
 	 * Get the element of this extension from class name.
 	 *
 	 * @return  string
@@ -273,9 +404,9 @@ class Pkg_RedgitInstallerScript
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select($db->qn('e.manifest_cache'))
-			->from($db->qn('#__extensions', 'e'))
-			->where('e.element = ' . $db->q($this->getElement()));
+			->select($db->quoteName('e.manifest_cache'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->where('e.element = ' . $db->quote($this->getElement()));
 
 		$db->setQuery($query);
 
@@ -316,6 +447,9 @@ class Pkg_RedgitInstallerScript
 
 			return;
 		}
+
+		// Create default dashboard modules
+		$this->createDashboardModules();
 
 		return $this->enablePlugins($parent);
 	}
@@ -433,6 +567,20 @@ class Pkg_RedgitInstallerScript
 	 */
 	private function registerNamespace($parent)
 	{
+		$installFolder = $parent->getParent()->getPath('source');
+
+		if (!class_exists('\Composer\Autoload\ClassLoader'))
+		{
+			$composerAutoload = $installFolder . '/libraries/redgit/vendor/autoload.php';
+
+			if (!file_exists($composerAutoload))
+			{
+				throw new Exception("redGIT: Unable to load composer");
+			}
+
+			require_once $composerAutoload;
+		}
+
 		$path = $parent->getParent()->getPath('source') . '/libraries/redgit/src';
 
 		$loader = new \Composer\Autoload\ClassLoader;
