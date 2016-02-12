@@ -61,6 +61,43 @@ abstract class RedgitInstallerUpdateScript
 	}
 
 	/**
+	 * Create a module
+	 *
+	 * @param   array    $moduleData  Data to bind to the module table
+	 * @param   integer  $itemId      Menu item id to attach the module. 0 for backend
+	 *
+	 * @return  boolean
+	 */
+	private function createModule($moduleData, $itemId = 0)
+	{
+		$table = JTable::getInstance('module');
+
+		if (!$table->save($moduleData))
+		{
+			return false;
+		}
+
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->insert($db->quoteName('#__modules_menu'))
+			->columns(
+				array(
+					$db->quoteName('moduleid'),
+					$db->quoteName('menuid')
+				)
+			)
+			->values(
+				(int) $table->id . ','
+				. 0
+			);
+
+		$db->setQuery($query);
+
+		return $db->execute() ? true : false;
+	}
+
+	/**
 	 * Empty a table from the database.
 	 *
 	 * @param   string  $tableName  Name of the table to empty
