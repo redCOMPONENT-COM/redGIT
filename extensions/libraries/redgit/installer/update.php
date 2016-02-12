@@ -77,6 +77,24 @@ abstract class RedgitInstallerUpdateScript
 			return false;
 		}
 
+		if (null !== $itemId)
+		{
+			return $this->createModuleMenu($table->id, $itemId);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Creates a link for a module on specific itemId.
+	 *
+	 * @param   integer  $moduleId  Module identifier
+	 * @param   integer  $itemId    Menu item id. 0 for backend
+	 *
+	 * @return  boolean
+	 */
+	private function createModuleMenu($moduleId, $itemId = 0)
+	{
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
@@ -88,8 +106,8 @@ abstract class RedgitInstallerUpdateScript
 				)
 			)
 			->values(
-				(int) $table->id . ','
-				. 0
+				(int) $moduleId . ','
+				. $itemId
 			);
 
 		$db->setQuery($query);

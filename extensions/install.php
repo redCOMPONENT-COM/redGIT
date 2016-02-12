@@ -74,7 +74,7 @@ class Pkg_RedgitInstallerScript
 			)
 		);
 
-		return $this->createModule($moduleData);
+		return $this->createModule($moduleData, 0);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Pkg_RedgitInstallerScript
 			)
 		);
 
-		return $this->createModule($moduleData);
+		return $this->createModule($moduleData, 0);
 	}
 
 	/**
@@ -123,13 +123,13 @@ class Pkg_RedgitInstallerScript
 	 * Create a module
 	 *
 	 * @param   array    $moduleData  Data to bind to the module table
-	 * @param   integer  $itemId      Menu item id to attach the module. 0 for backend
+	 * @param   integer  $itemId      Menu item id to attach the module. null for none | 0 for backend
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.0.8
 	 */
-	private function createModule($moduleData, $itemId = 0)
+	private function createModule($moduleData, $itemId = null)
 	{
 		$table = JTable::getInstance('module');
 
@@ -138,6 +138,26 @@ class Pkg_RedgitInstallerScript
 			return false;
 		}
 
+		if (null !== $itemId)
+		{
+			return $this->createModuleMenu($table->id, $itemId);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Creates a link for a module on specific itemId.
+	 *
+	 * @param   integer  $moduleId  Module identifier
+	 * @param   integer  $itemId    Menu item id. 0 for backend
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.0.8
+	 */
+	private function createModuleMenu($moduleId, $itemId = 0)
+	{
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
@@ -149,8 +169,8 @@ class Pkg_RedgitInstallerScript
 				)
 			)
 			->values(
-				(int) $table->id . ','
-				. 0
+				(int) $moduleId . ','
+				. $itemId
 			);
 
 		$db->setQuery($query);
