@@ -5,6 +5,7 @@ var config = require('../../gulp-config.json');
 // Dependencies
 var browserSync = require('browser-sync');
 var del         = require('del');
+var composer    = require('gulp-composer');
 
 var baseTask     = 'libraries.redgit';
 var extPath      = '../extensions/libraries/redgit';
@@ -29,6 +30,11 @@ gulp.task('clean:' + baseTask + ':library', function(cb) {
 // Clean: manifest
 gulp.task('clean:' + baseTask + ':manifest', function(cb) {
 	return del(wwwManifestsFolder + '/' + manifestFile, {force : true});
+});
+
+// Composer
+gulp.task('composer:' + baseTask, function(cb) {
+	composer({ cwd: extPath, bin: 'php ./composer.phar'}).on('end', cb);
 });
 
 // Copy
