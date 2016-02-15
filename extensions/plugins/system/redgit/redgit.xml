@@ -3,8 +3,10 @@
 	<name>PLG_SYSTEM_REDGIT</name>
 	<version>1.0</version>
 	<creationDate>November 2015</creationDate>
-	<author>redCOMPONENT.com</author>
-	<copyright>redCOMPONENT.com</copyright>
+	<author>redCOMPONENT</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<copyright>Copyright (C) 2015 - 2016 redCOMPONENT.com. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<description>PLG_SYSTEM_REDGIT_XML_DESC</description>
 	<files>

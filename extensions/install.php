@@ -3,7 +3,7 @@
  * @package     Redgit.Package
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2015 redcomponent.com. All rights reserved.
+ * @copyright   Copyright (C) 2015 - 2016 redcomponent.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,7 +35,7 @@ class Pkg_RedgitInstallerScript
 	 * Version installed.
 	 *
 	 * @var    string
-	 * @since  1.0.8
+	 * @since  1.1.0
 	 */
 	protected $installedVersion;
 
@@ -43,7 +43,7 @@ class Pkg_RedgitInstallerScript
 	 * List of update scripts
 	 *
 	 * @var    array
-	 * @since  1.0.8
+	 * @since  1.1.0
 	 */
 	private $updateScripts;
 
@@ -52,7 +52,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function createDasboardCommitModule()
 	{
@@ -82,7 +82,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function createDasboardGitModule()
 	{
@@ -112,7 +112,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function createDashboardModules()
 	{
@@ -127,7 +127,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function createModule($moduleData, $itemId = null)
 	{
@@ -154,7 +154,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function createModuleMenu($moduleId, $itemId = 0)
 	{
@@ -183,7 +183,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function getElement()
 	{
@@ -195,7 +195,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function getInstalledVersion()
 	{
@@ -246,7 +246,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  string
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function getUpdatesFolder($parent)
 	{
@@ -278,7 +278,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  array
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function getUpdateScripts($parent)
 	{
@@ -289,7 +289,7 @@ class Pkg_RedgitInstallerScript
 
 		$this->updateScripts = array();
 
-		// Require the base script installer if it doesn't exist. Only there from v1.0.8.
+		// Require the base script installer if it doesn't exist. Only there from v1.1.0.
 		$baseScript = $parent->getParent()->getPath('source') . '/libraries/redgit/installer/update.php';
 
 		if (file_exists($baseScript))
@@ -396,7 +396,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  self
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function loadInstalledVersion()
 	{
@@ -462,7 +462,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	public function preflight($type, $parent)
 	{
@@ -563,7 +563,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 */
 	private function registerNamespace($parent)
 	{
@@ -597,7 +597,7 @@ class Pkg_RedgitInstallerScript
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.0.8
+	 * @since   1.1.0
 	 *
 	 * @throws  RuntimeException  If something goes wrong in the method
 	 */
