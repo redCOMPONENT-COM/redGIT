@@ -122,7 +122,7 @@ class Configuration
 	{
 		if ($config instanceof \JRegistry || $config instanceof \Joomla\Registry\Registry)
 		{
-			$this->merge($config);
+			$this->config->merge($config);
 		}
 
 		$content = $this->config->toString('ini');

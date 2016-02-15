@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 $action = JRoute::_('index.php?option=com_redgit&task=git.commit');
 
-JHtml::_('jquery.framework');
 JHtml::script('mod_redgit_commit/commit.js', false, true, false);
 ?>
 <form action="<?php echo $action ?>" method="post" name="adminForm" id="mod-redgit-commit">

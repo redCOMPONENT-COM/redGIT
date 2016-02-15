@@ -11,13 +11,14 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Redgit\Application;
+use Redgit\Model\AdminModel;
 
 /**
  * Station model.
  *
  * @since  1.0.0
  */
-class RedgitModelStation extends JModelAdmin
+class RedgitModelStation extends AdminModel
 {
 	/**
 	 * Method to get the record form.

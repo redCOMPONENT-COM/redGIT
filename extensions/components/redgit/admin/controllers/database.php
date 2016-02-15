@@ -34,26 +34,26 @@ class RedgitControllerDatabase extends JControllerLegacy
 
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$app->setHeader('status', 403);
-			$app->sendHeaders();
+			Application::setHeader('status', 403);
+			Application::sendHeaders();
 			echo JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN');
 			$app->close();
 		}
 
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = Application::getDispatcher();
 		JPluginHelper::importPlugin('redgit');
 
 		$result = $dispatcher->trigger('onRedgitDumpDatabase', array('com_redgit.admin.dump'));
 
 		if (in_array(false, $result, true))
 		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
+			Application::setHeader('status', 500);
+			Application::sendHeaders();
 			echo $dispatcher->getError();
 			$app->close();
 		}
 
-		$app->sendHeaders();
+		Application::sendHeaders();
 		echo 1;
 		$app->close();
 	}
@@ -73,26 +73,26 @@ class RedgitControllerDatabase extends JControllerLegacy
 
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$app->setHeader('status', 403);
-			$app->sendHeaders();
+			Application::setHeader('status', 403);
+			Application::sendHeaders();
 			echo JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN');
 			$app->close();
 		}
 
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = Application::getDispatcher();
 		JPluginHelper::importPlugin('redgit');
 
 		$result = $dispatcher->trigger('onRedgitRestoreDatabase', array('com_redgit.admin.restore'));
 
 		if (in_array(false, $result, true))
 		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
+			Application::setHeader('status', 500);
+			Application::sendHeaders();
 			echo $dispatcher->getError();
 			$app->close();
 		}
 
-		$app->sendHeaders();
+		Application::sendHeaders();
 		echo 1;
 		$app->close();
 	}
@@ -113,7 +113,7 @@ class RedgitControllerDatabase extends JControllerLegacy
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = Application::getDispatcher();
 		JPluginHelper::importPlugin('redgit');
 
 		$result = $dispatcher->trigger('onRedgitDumpDatabase', array('com_redgit.admin.dump'));
@@ -140,7 +140,7 @@ class RedgitControllerDatabase extends JControllerLegacy
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = Application::getDispatcher();
 		JPluginHelper::importPlugin('redgit');
 
 		$result = $dispatcher->trigger('onRedgitRestoreDatabase', array('com_redgit.admin.restore'));

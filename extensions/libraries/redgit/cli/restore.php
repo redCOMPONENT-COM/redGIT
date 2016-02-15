@@ -15,6 +15,10 @@ ini_set('display_errors', 1);
 
 require_once dirname(__FILE__) . '/bootstrap.php';
 
+JLoader::import('joomla.application.component.helper');
+
+use Redgit\Application;
+
 /**
  * Application to restore database
  *
@@ -29,7 +33,7 @@ class RedgitCliRestore extends RedgitCliApp
 	 */
 	public function doExecute()
 	{
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = Application::getDispatcher();
 		JPluginHelper::importPlugin('redgit');
 
 		$result = $dispatcher->trigger('onRedgitRestoreDatabase', array('com_redgit.cli.restore'));

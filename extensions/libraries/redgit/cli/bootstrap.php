@@ -25,7 +25,14 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
+if (file_exists(JPATH_LIBRARIES . '/import.legacy.php'))
+{
+	require_once JPATH_LIBRARIES . '/import.legacy.php';
+}
+elseif (file_exists(JPATH_LIBRARIES . '/import.php'))
+{
+	require_once JPATH_LIBRARIES . '/import.php';
+}
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';

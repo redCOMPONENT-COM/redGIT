@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('joomla.application.component.controllerform');
+
 use Redgit\Application;
 
 /**
@@ -65,7 +67,7 @@ class RedgitControllerStation extends JControllerForm
 	{
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid   = $app->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
 		if (!JFactory::getUser()->authorise('core.admin'))
@@ -116,7 +118,7 @@ class RedgitControllerStation extends JControllerForm
 		$app   = JFactory::getApplication();
 		$lang = JFactory::getLanguage();
 		$model = $this->getModel();
-		$data  = $this->input->post->get('jform', array(), 'array');
+		$data  = $app->input->post->get('jform', array(), 'array');
 		$form  = $model->getForm($data, false);
 		$context = "$this->option.edit.$this->context";
 

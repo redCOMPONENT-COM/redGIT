@@ -9,6 +9,7 @@
 
 namespace Redgit\Git;
 
+use Redgit\Application;
 use GitWrapper\GitWorkingCopy as GitWorkingCopyBase;
 use GitWrapper\GitException;
 
@@ -184,7 +185,7 @@ class GitWorkingCopy extends GitWorkingCopyBase
 			$context = 'com_redgit.git.workingcopy';
 		}
 
-		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher = Application::getDispatcher();
 
 		\JPluginHelper::importPlugin('redgit');
 

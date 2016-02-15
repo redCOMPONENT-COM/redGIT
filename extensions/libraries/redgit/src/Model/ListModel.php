@@ -11,6 +11,8 @@ namespace Redgit\Model;
 
 defined('_JEXEC') or die;
 
+\JLoader::import('joomla.application.component.modellist');
+
 /**
  * Model class for handling lists of items.
  *

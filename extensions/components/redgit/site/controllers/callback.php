@@ -71,7 +71,7 @@ class RedgitControllerCallback extends JControllerLegacy
 
 		$tableData['type'] = $type;
 
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = Application::getDispatcher();
 		JPluginHelper::importPlugin('redgit', $plugin);
 
 		$method = 'onRedgitReceive' . ucfirst($type) . 'Callback';
