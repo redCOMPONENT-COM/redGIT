@@ -15,7 +15,7 @@ var dir = requireDir('./joomla-gulp-extensions', {recurse: true});
 var rootPath = '../extensions';
 
 // Override of the release script
-gulp.task('release', function (cb) {
+gulp.task('release', ['composer:libraries.redgit'], function (cb) {
 	fs.readFile( '../extensions/pkg_redgit.xml', function(err, data) {
 		parser.parseString(data, function (err, result) {
 			var version = result.extension.version[0];
