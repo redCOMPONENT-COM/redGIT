@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Update script class.
  * Note: This class doesn't use autoloading naminb conventions to allow to use always the latest version
  *
- * @since  1.0.8
+ * @since  1.1.0
  */
 abstract class RedgitInstallerUpdateScript
 {

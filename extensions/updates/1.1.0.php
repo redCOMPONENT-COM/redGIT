@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 /**
- * Update to version 1.0.8.
+ * Update to version 1.1.0.
  *
- * @since  1.0.8
+ * @since  1.1.0
  */
-class UpdateTo108 extends RedgitInstallerUpdateScript
+class UpdateTo110 extends RedgitInstallerUpdateScript
 {
 }
