@@ -15,4 +15,4 @@ use Redgit\Application;
 <div class="pull-right hidden-xs">
   <b>Version</b> <?php echo Application::getVersion();?>
 </div>
-<strong>Copyright &copy; 2015 <a href="http://redcomponent.com/">redCOMPONENT</a>.</strong> All rights reserved.
+<strong>Copyright &copy; 2015 -2016 <a href="http://redcomponent.com/">redCOMPONENT</a>.</strong> All rights reserved.
