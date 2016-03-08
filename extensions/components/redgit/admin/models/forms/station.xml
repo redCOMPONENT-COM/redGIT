@@ -26,17 +26,14 @@
 			class="form-control"
 		/>
 		<field
-			type="list"
+			type="text"
 			name="git_branch"
 			label="LIB_REDGIT_STATION_FIELD_GIT_BRANCH"
 			description="LIB_REDGIT_STATION_FIELD_GIT_BRANCH_DESC"
+			hint="LIB_REDGIT_STATION_FIELD_GIT_BRANCH_PLACEHOLDER"
 			required="true"
 			class="form-control"
-			>
-			<option value="">JNONE</option>
-			<option value="master">LIB_REDGIT_STATION_FIELD_GIT_BRANCH_OPTION_MASTER</option>
-			<option value="live">LIB_REDGIT_STATION_FIELD_GIT_BRANCH_OPTION_LIVE</option>
-		</field>
+		/>
 		<field
 			name="default_commit_message"
 			type="text"
