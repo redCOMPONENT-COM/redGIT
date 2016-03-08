@@ -82,6 +82,23 @@ abstract class Application
 	}
 
 	/**
+	 * Get the event dispatcher.
+	 *
+	 * @return  mixed  JEventDispatcher for J3 series | JDispatcher for j2.5 series
+	 *
+	 * @since   1.1.0
+	 */
+	public static function getDispatcher()
+	{
+		if (version_compare(JVERSION, '3.0', 'lt'))
+		{
+			return \JDispatcher::getInstance();
+		}
+
+		return \JEventDispatcher::getInstance();
+	}
+
+	/**
 	 * Get the active document or instance it if not loaded
 	 *
 	 * @return  \Redgit\Document
@@ -296,5 +313,49 @@ abstract class Application
 		}
 
 		static::$git = $git;
+	}
+
+	/**
+	 * Send the response headers.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.1.0
+	 */
+	public static function sendHeaders()
+	{
+		if (version_compare(JVERSION, '3.0', 'lt'))
+		{
+			\JResponse::sendHeaders();
+
+			return;
+		}
+
+		\JFactory::getApplication()->sendHeaders();
+	}
+
+	/**
+	 * Method to set a response header.  If the replace flag is set then all headers
+	 * with the given name will be replaced by the new one.  The headers are stored
+	 * in an internal array to be sent when the site is sent to the browser.
+	 *
+	 * @param   string   $name     The name of the header to set.
+	 * @param   string   $value    The value of the header to set.
+	 * @param   boolean  $replace  True to replace any headers with the same name.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.1.0
+	 */
+	public static function setHeader($name, $value, $replace = false)
+	{
+		if (version_compare(JVERSION, '3.0', 'lt'))
+		{
+			\JResponse::setHeader($name, $value, $replace);
+
+			return;
+		}
+
+		\JFactory::getApplication()->setHeader($name, $value, $replace);
 	}
 }

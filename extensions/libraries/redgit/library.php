@@ -15,7 +15,13 @@ if (file_exists($composerAutoload))
 	require_once $composerAutoload;
 }
 
+JLoader::setup();
 JLoader::registerPrefix('Redgit', __DIR__);
+
+if (version_compare(JVERSION, '3.0', 'lt'))
+{
+	JLoader::import('joomla.database.table');
+}
 
 // Html helpers
 JHtml::addIncludePath(__DIR__ . '/html');

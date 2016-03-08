@@ -34,11 +34,6 @@ class RedgitModelCallbacks extends ListModel
 				'plugin'       , 'c.plugin',
 				'type'         , 'c.type'
 			);
-
-			if (JLanguageAssociations::isEnabled())
-			{
-				$config['filter_fields'][] = 'association';
-			}
 		}
 
 		parent::__construct($config);

@@ -82,8 +82,8 @@ class RedgitControllerGit extends JControllerLegacy
 
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$app->setHeader('status', 403);
-			$app->sendHeaders();
+			Application::setHeader('status', 403);
+			Application::sendHeaders();
 			echo JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN');
 			$app->close();
 		}
@@ -110,13 +110,13 @@ class RedgitControllerGit extends JControllerLegacy
 		}
 		catch (Exception $e)
 		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
+			Application::setHeader('status', 500);
+			Application::sendHeaders();
 			echo $e->getMessage();
 			$app->close();
 		}
 
-		$app->sendHeaders();
+		Application::sendHeaders();
 		echo 1;
 		$app->close();
 	}
@@ -136,8 +136,8 @@ class RedgitControllerGit extends JControllerLegacy
 
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$app->setHeader('status', 403);
-			$app->sendHeaders();
+			Application::setHeader('status', 403);
+			Application::sendHeaders();
 			echo JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN');
 			$app->close();
 		}
@@ -157,13 +157,13 @@ class RedgitControllerGit extends JControllerLegacy
 		}
 		catch (Exception $e)
 		{
-			$app->setHeader('status', 500);
-			$app->sendHeaders();
+			Application::setHeader('status', 500);
+			Application::sendHeaders();
 			echo $e->getMessage();
 			$app->close();
 		}
 
-		$app->sendHeaders();
+		Application::sendHeaders();
 		echo 1;
 		$app->close();
 	}

@@ -78,6 +78,36 @@ class Pkg_RedgitInstallerScript
 	}
 
 	/**
+	 * Creates a dashboard mod_redgit_dashboard module.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.1.0
+	 */
+	private function createDasboardDatabaseModule()
+	{
+		$moduleData = array(
+			'title'     => 'Database',
+			'content'   => '',
+			'module'    => 'mod_redgit_database',
+			'access'    => '1',
+			'showtitle' => '1',
+			'position'  => 'redgit-dashboard-sidebar',
+			'params'    => '',
+			'client_id' => 1,
+			'published' => 1,
+			'language'  => '*',
+			'ordering'  => 1,
+			'params'    => array(
+				'header_tag' => 'h4',
+				'moduleclass_sfx' => ''
+			)
+		);
+
+		return $this->createModule($moduleData, 0);
+	}
+
+	/**
 	 * Creates a dashboard mod_redgit_git module.
 	 *
 	 * @return  boolean
@@ -116,7 +146,7 @@ class Pkg_RedgitInstallerScript
 	 */
 	private function createDashboardModules()
 	{
-		return $this->createDasboardGitModule() && $this->createDasboardCommitModule();
+		return $this->createDasboardGitModule() && $this->createDasboardCommitModule() && $this->createDasboardDatabaseModule();
 	}
 
 	/**

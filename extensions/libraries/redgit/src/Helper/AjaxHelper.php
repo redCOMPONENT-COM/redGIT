@@ -11,6 +11,8 @@ namespace Redgit\Helper;
 
 defined('_JEXEC') or die;
 
+use Redgit\Application;
+
 /**
  * AJAX helper.
  *
@@ -45,8 +47,9 @@ abstract class AjaxHelper
 		{
 			$app = \JFactory::getApplication();
 
-			$app->setHeader('status', 403);
-			$app->sendHeaders();
+			Application::setHeader('status', 403);
+			Application::sendHeaders();
+
 			echo \JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN');
 			$app->close();
 		}

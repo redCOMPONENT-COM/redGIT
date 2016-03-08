@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 $action = JRoute::_('index.php?option=com_redgit&task=database.restore');
 
-JHtml::_('jquery.framework');
 JHtml::script('mod_redgit_database/database.js', false, true, false);
 ?>
 <form action="<?php echo $action ?>" method="post" name="adminForm" id="mod-redgit-database">
