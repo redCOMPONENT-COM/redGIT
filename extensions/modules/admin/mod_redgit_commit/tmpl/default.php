@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 $action = JRoute::_('index.php?option=com_redgit&task=git.commit');
 
-JHtml::script('mod_redgit_commit/commit.js', false, true, false);
+JHtml::script('mod_redgit_commit/module.min.js', false, true, false);
 ?>
 <form action="<?php echo $action ?>" method="post" name="adminForm" id="mod-redgit-commit">
 	<p class="text-muted js-mod-redgit-commit-msg"><?php echo JText::_('MOD_REDGIT_COMMIT_MSG_MODULE_LEGEND'); ?></p>
