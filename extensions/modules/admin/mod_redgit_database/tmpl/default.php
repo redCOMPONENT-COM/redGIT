@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $action = JRoute::_('index.php?option=com_redgit&task=database.restore');
 
-JHtml::script('mod_redgit_database/database.js', false, true, false);
+JHtml::script('mod_redgit_database/module.min.js', false, true, false);
 ?>
 <form action="<?php echo $action ?>" method="post" name="adminForm" id="mod-redgit-database">
 	<p class="text-muted js-mod-redgit-database-msg"><?php echo JText::_('MOD_REDGIT_DATABASE_MSG_MODULE_LEGEND'); ?></p>

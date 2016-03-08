@@ -8,9 +8,12 @@ if (typeof config.watchInterval !== 'undefined') {
 
 // Dependencies
 var browserSync = require('browser-sync');
+var concat      = require('gulp-concat');
 var del         = require('del');
 var fs          = require('fs');
-var path        = require('path');
+var gutil       = require('gulp-util');
+var rename      = require('gulp-rename');
+var uglify      = require('gulp-uglify');
 
 var modName   = "commit";
 var modFolder = "mod_redgit_" + modName;
@@ -70,11 +73,44 @@ gulp.task('copy:' + baseTask + ':media', ['clean:' + baseTask + ':media'], funct
 		.pipe(gulp.dest(wwwMediaPath));
 });
 
+// Scripts
+gulp.task('scripts:' + baseTask,
+	[
+		'scripts:' + baseTask + ':module'
+	],
+	function() {
+});
+
+function compileScripts(src, ouputFileName, destinationFolder) {
+	return gulp.src(src)
+		.pipe(concat(ouputFileName))
+		.pipe(gulp.dest(mediaPath + '/' + destinationFolder))
+		.pipe(gulp.dest(wwwMediaPath + '/' + destinationFolder))
+		.pipe(uglify().on('error', gutil.log))
+		.pipe(rename(function (path) {
+			path.basename += '.min';
+		}))
+		.pipe(gulp.dest(mediaPath + '/' + destinationFolder))
+		.pipe(gulp.dest(wwwMediaPath + '/' + destinationFolder));
+}
+
+// Scripts: module
+gulp.task('scripts:' + baseTask + ':module', function () {
+	return compileScripts(
+		[
+			'./media/modules/' + modBase + '/' + modFolder + '/js/module.js'
+		],
+		'module.js',
+		'js'
+	);
+});
+
 // Watch
 gulp.task('watch:' + baseTask,
 	[
 		'watch:' + baseTask + ':module',
-		'watch:' + baseTask + ':media'
+		'watch:' + baseTask + ':media',
+		'watch:' + baseTask + ':scripts'
 	],
 	function() {
 });
@@ -92,8 +128,16 @@ gulp.task('watch:' + baseTask + ':module', function() {
 // Watch: Media
 gulp.task('watch:' + baseTask + ':media', function() {
 	gulp.watch([
-		mediaPath + '/**'
+		mediaPath + '/**',
+		'!' + mediaPath + '/js/**'
 	],
 	{ interval: watchInterval },
 	['copy:' + baseTask + ':media', browserSync.reload]);
+});
+
+// Watch: scripts
+gulp.task('watch:' + baseTask + ':scripts', function() {
+    gulp.watch([
+    	'./media/modules/' + modBase + '/' + modFolder + '/js/**/*.js'
+    ], ['scripts:' + baseTask, browserSync.reload]);
 });
