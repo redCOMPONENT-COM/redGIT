@@ -8,8 +8,11 @@
  */
 
 defined('_JEXEC') or die;
+
+use Redgit\Application;
+
 ?>
 <div class="pull-right hidden-xs">
-  <b>Version</b> 0.1
+  <b>Version</b> <?php echo Application::getVersion();?>
 </div>
 <strong>Copyright &copy; 2015 <a href="http://redcomponent.com/">redCOMPONENT</a>.</strong> All rights reserved.

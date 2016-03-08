@@ -67,6 +67,14 @@ abstract class Application
 	protected static $stationConfiguration;
 
 	/**
+	 * Installed redGIT version.
+	 *
+	 * @var    string
+	 * @since  1.1.1
+	 */
+	private static $version;
+
+	/**
 	 * Get the configuration
 	 *
 	 * @return  mixed  \Joomla\Registry\Registry | JRegistry depending on the Joomla! version
@@ -206,6 +214,30 @@ abstract class Application
 		}
 
 		return static::$stationConfiguration;
+	}
+
+	/**
+	 * Get the installed version of redGIT.
+	 *
+	 * @return  string
+	 *
+	 * @since   1.1.1
+	 */
+	public static function getVersion()
+	{
+		if (null === self::$version)
+		{
+			$xmlfile = JPATH_SITE . '/administrator/components/com_redgit/redgit.xml';
+			self::$version = 'Unknown';
+
+			if (file_exists($xmlfile))
+			{
+				$data = \JApplicationHelper::parseXMLInstallFile($xmlfile);
+				self::$version = $data['version'];
+			}
+		}
+
+		return self::$version;
 	}
 
 	/**
