@@ -39,7 +39,7 @@ class PlgRedgitBitbucket extends RedgitPlugin
 
 		$data = json_decode($data);
 
-		$config = Application::getConfig();
+		$config = Application::getStationConfiguration();
 		$log    = Application::getLog();
 
 		if (!$this->isValidData($data))
