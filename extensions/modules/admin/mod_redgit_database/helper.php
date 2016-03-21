@@ -41,23 +41,4 @@ abstract class ModRedgit_DatabaseHelper
 
 		return ((int) $stationConfig->get('db_restore_enabled') === 1);
 	}
-
-	/**
-	 * Get the git instance
-	 *
-	 * @return  string
-	 */
-	public static function getGit()
-	{
-		try
-		{
-			$git = Application::getGit();
-		}
-		catch (Exception $e)
-		{
-			return null;
-		}
-
-		return $git;
-	}
 }

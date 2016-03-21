@@ -14,7 +14,6 @@
         <folder>language</folder>
         <folder>tmpl</folder>
         <filename>LICENSE</filename>
-		<filename>helper.php</filename>
         <filename module="mod_redgit_git">mod_redgit_git.php</filename>
         <filename>mod_redgit_git.xml</filename>
     </files>

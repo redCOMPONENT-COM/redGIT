@@ -9,12 +9,22 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/helper.php';
+use Redgit\Application;
+
+try
+{
+	$git = Application::getGit();
+}
+catch (Exception $e)
+{
+	echo RedgitLayoutHelper::render('redgit.error', array('message' => $e->getMessage()));
+
+	return;
+}
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
-$git = ModRedgit_CommitHelper::getGit();
-$stationConfiguration = ModRedgit_CommitHelper::getStationConfiguration();
+$stationConfiguration = Application::getStationConfiguration();
 
 if (!$git || !$stationConfiguration)
 {

@@ -41,33 +41,4 @@ abstract class ModRedgit_RemoteHelper
 
 		return ((int) $stationConfig->get('git_push_enabled') === 1);
 	}
-
-	/**
-	 * Get the git instance
-	 *
-	 * @return  string
-	 */
-	public static function getGit()
-	{
-		try
-		{
-			$git = Application::getGit();
-		}
-		catch (Exception $e)
-		{
-			return null;
-		}
-
-		return $git;
-	}
-
-	/**
-	 * Get the station configuration
-	 *
-	 * @return  \Redgit\Station\Configuration
-	 */
-	public static function getStationConfiguration()
-	{
-		return Application::getStationConfiguration();
-	}
 }
