@@ -64,16 +64,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.17.2",
+            "version": "1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "bee7f0dc9c3e0b69a6039697533dca1e845c8c24"
+                "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bee7f0dc9c3e0b69a6039697533dca1e845c8c24",
-                "reference": "bee7f0dc9c3e0b69a6039697533dca1e845c8c24",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
+                "reference": "a5f2734e8c16f3aa21b3da09715d10e15b4d2d45",
                 "shasum": ""
             },
             "require": {
@@ -102,6 +102,7 @@
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
                 "ext-mongo": "Allow sending log messages to a MongoDB server",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "raven/raven": "Allow sending log messages to a Sentry server",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
@@ -111,7 +112,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.16.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -137,7 +138,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2015-10-14 12:51:02"
+            "time": "2016-03-13 16:08:35"
         },
         {
             "name": "psr/log",
@@ -179,27 +180,27 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.7.7",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "7e2f9c31645680026c2372edf66f863fc7757af5"
+                "reference": "4dd5df31a28c0f82b41cb1e1599b74b5dcdbdafa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/7e2f9c31645680026c2372edf66f863fc7757af5",
-                "reference": "7e2f9c31645680026c2372edf66f863fc7757af5",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/4dd5df31a28c0f82b41cb1e1599b74b5dcdbdafa",
+                "reference": "4dd5df31a28c0f82b41cb1e1599b74b5dcdbdafa",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.5.9"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.0,>=2.0.5",
-                "symfony/dependency-injection": "~2.6",
-                "symfony/expression-language": "~2.6",
-                "symfony/stopwatch": "~2.3"
+                "symfony/config": "~2.8|~3.0",
+                "symfony/dependency-injection": "~2.8|~3.0",
+                "symfony/expression-language": "~2.8|~3.0",
+                "symfony/stopwatch": "~2.8|~3.0"
             },
             "suggest": {
                 "symfony/dependency-injection": "",
@@ -208,7 +209,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -235,83 +236,29 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2015-10-30 20:10:21"
-        },
-        {
-            "name": "symfony/options-resolver",
-            "version": "v2.7.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "d6b7d3452b4cfff89b642993e02fea7cc254530e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/d6b7d3452b4cfff89b642993e02fea7cc254530e",
-                "reference": "d6b7d3452b4cfff89b642993e02fea7cc254530e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.9"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.7-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\OptionsResolver\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony OptionsResolver Component",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "config",
-                "configuration",
-                "options"
-            ],
-            "time": "2015-11-18 13:41:01"
+            "time": "2016-01-27 05:14:46"
         },
         {
             "name": "symfony/process",
-            "version": "v2.7.7",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "f6290983c8725d0afa29bdc3e5295879de3e58f5"
+                "reference": "dfecef47506179db2501430e732adbf3793099c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/f6290983c8725d0afa29bdc3e5295879de3e58f5",
-                "reference": "f6290983c8725d0afa29bdc3e5295879de3e58f5",
+                "url": "https://api.github.com/repos/symfony/process/zipball/dfecef47506179db2501430e732adbf3793099c8",
+                "reference": "dfecef47506179db2501430e732adbf3793099c8",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.5.9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -338,7 +285,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-19 16:11:24"
+            "time": "2016-02-02 13:44:19"
         }
     ],
     "packages-dev": [],
