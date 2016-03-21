@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Redgit\Model\AdminModel;
+
 /**
  * Station model.
  *
  * @since  1.0.2
  */
-class RedgitModelCallback extends JModelAdmin
+class RedgitModelCallback extends AdminModel
 {
 	/**
 	 * Method to get the record form.

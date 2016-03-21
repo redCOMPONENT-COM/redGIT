@@ -9,16 +9,15 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controllerform');
-
 use Redgit\Application;
+use Redgit\Controller\FormController;
 
 /**
  * Station Controller.
  *
  * @since  1.0.0
  */
-class RedgitControllerStation extends JControllerForm
+class RedgitControllerStation extends FormController
 {
 	/**
 	 * The URL view list variable.

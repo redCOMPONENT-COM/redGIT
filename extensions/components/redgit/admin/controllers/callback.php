@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Redgit\Application;
+use Redgit\Controller\FormController;
 
 /**
  * Callback Controller.
  *
  * @since  1.0.2
  */
-class RedgitControllerCallback extends JControllerForm
+class RedgitControllerCallback extends FormController
 {
 	/**
 	 * Method to cancel an edit.

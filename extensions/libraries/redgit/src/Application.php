@@ -176,7 +176,9 @@ abstract class Application
 	{
 		$renderer = new \RedgitLayout($layoutId);
 
-		$renderer->setIncludePaths(static::getLayoutPaths());
+		$renderer
+			->setIncludePaths(static::getLayoutPaths())
+			->loadVersionSuffixes();
 
 		return $renderer;
 	}
