@@ -153,7 +153,7 @@ abstract class Application
 
 			if (!is_writable($logDir))
 			{
-				throw new \Exception("redGIT: Cannot write to log folder. Check configuration: " . $logDir, 500);
+				throw new \Exception("Cannot write to log folder. Check configuration: " . $logDir, 500);
 			}
 
 			$log = new Logger('redgit');
@@ -249,11 +249,11 @@ abstract class Application
 	 */
 	protected static function initGit()
 	{
-		static::$git = false;
-
 		$config = static::getConfig();
 		$stationConfig = static::getStationConfiguration();
 		$log    = static::getLog();
+
+		static::$git = false;
 
 		$repository = $stationConfig->get('git_repository');
 

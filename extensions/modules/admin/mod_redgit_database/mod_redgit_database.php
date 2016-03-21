@@ -9,13 +9,25 @@
 
 defined('_JEXEC') or die;
 
+use Redgit\Application;
+
+try
+{
+	$git = Application::getGit();
+}
+catch (Exception $e)
+{
+	echo RedgitLayoutHelper::render('redgit.error', array('message' => $e->getMessage()));
+
+	return;
+}
+
 require_once __DIR__ . '/helper.php';
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 $canDump    = ModRedgit_DatabaseHelper::canDump();
 $canRestore = ModRedgit_DatabaseHelper::canRestore();
-$git        = ModRedgit_DatabaseHelper::getGit();
 
 if (!$git)
 {
