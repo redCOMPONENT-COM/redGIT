@@ -389,6 +389,26 @@ class Pkg_RedgitInstallerScript
 	}
 
 	/**
+	 * Joomla 2.5 always sends $type = 'install' so we need an alternative way to detect updates.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.1.2
+	 */
+	private function is25update()
+	{
+		if (!version_compare(JVERSION, '3.0', 'lt'))
+		{
+			return false;
+		}
+
+		$extension = JTable::getInstance('extension');
+		$eid = $extension->find(array('element' => 'pkg_redgit', 'type' => 'package'));
+
+		return $eid ? true : false;
+	}
+
+	/**
 	 * Shit happens. Patched function to bypass bug in package uninstaller
 	 *
 	 * @param   JInstallerAdapter  $parent  Parent object
@@ -470,7 +490,7 @@ class Pkg_RedgitInstallerScript
 		$this->createConfigFolders();
 
 		// Next changes will be applied only to new installations
-		if ($type == 'update')
+		if ($type == 'update' || $this->is25update())
 		{
 			// Run update scripts
 			$this->runUpdateScriptsMethod($parent, 'postflight');
@@ -498,7 +518,7 @@ class Pkg_RedgitInstallerScript
 	{
 		$this->registerNamespace($parent);
 
-		if ($type == "update")
+		if ($type == "update" || $this->is25update())
 		{
 			// Run update scripts
 			$this->runUpdateScriptsMethod($parent, 'preflight');
