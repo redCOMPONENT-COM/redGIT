@@ -1,23 +1,23 @@
 <?php
 /**
  * @package     Redgit.Library
- * @subpackage  Model
+ * @subpackage  Controller
  *
  * @copyright   Copyright (C) 2015 - 2016 redcomponent.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Redgit\Model;
+namespace Redgit\Controller;
 
 defined('_JEXEC') or die;
 
-\JLoader::import('joomla.application.component.modellist');
+\JLoader::import('joomla.application.component.controllerform');
 
 /**
- * Model class for handling lists of items.
+ * Base Form Controller.
  *
- * @since  1.0.0
+ * @since  1.1.1
  */
-class ListModel extends \JModelList
+class FormController extends \JControllerForm
 {
 }
