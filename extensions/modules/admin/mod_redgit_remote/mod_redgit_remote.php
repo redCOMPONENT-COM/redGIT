@@ -26,7 +26,7 @@ require_once __DIR__ . '/helper.php';
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
-$stationConfiguration = Application::getStationConfiguration()
+$stationConfiguration = Application::getStationConfiguration();
 $canPull = ModRedgit_RemoteHelper::canPull();
 $canPush = ModRedgit_RemoteHelper::canPush();
 
