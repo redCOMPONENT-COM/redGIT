@@ -2,7 +2,7 @@
 <extension type="library" method="upgrade" version="2.5">
 	<name>redGIT - Library</name>
 	<libraryname>redgit</libraryname>
-	<creationDate>March 2016</creationDate>
+	<creationDate>April 2016</creationDate>
 	<author>redCOMPONENT</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>

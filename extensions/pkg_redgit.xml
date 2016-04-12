@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="package" version="2.5" method="upgrade">
 	<name>PKG_REDGIT</name>
-	<creationDate>March 2016</creationDate>
+	<creationDate>April 2016</creationDate>
 	<author>redCOMPONENT</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>
