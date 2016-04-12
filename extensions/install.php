@@ -25,6 +25,14 @@ class Pkg_RedgitInstallerScript
 	public $installer = null;
 
 	/**
+	 * Is this an update installation?
+	 *
+	 * @var    boolean
+	 * @since  1.1.2
+	 */
+	private $is25Update;
+
+	/**
 	 * Manifest of the extension being processed
 	 *
 	 * @var  SimpleXMLElement
@@ -397,15 +405,22 @@ class Pkg_RedgitInstallerScript
 	 */
 	private function is25update()
 	{
-		if (!version_compare(JVERSION, '3.0', 'lt'))
+		if (null === $this->is25Update)
 		{
-			return false;
+			if (!version_compare(JVERSION, '3.0', 'lt'))
+			{
+				$this->is25Update = false;
+
+				return $this->is25Update;
+			}
+
+			$extension = JTable::getInstance('extension');
+			$eid = $extension->load(array('element' => 'pkg_redgit', 'type' => 'package'));
+
+			$this->is25Update = $eid ? true : false;
 		}
 
-		$extension = JTable::getInstance('extension');
-		$eid = $extension->find(array('element' => 'pkg_redgit', 'type' => 'package'));
-
-		return $eid ? true : false;
+		return $this->is25Update;
 	}
 
 	/**
@@ -490,7 +505,7 @@ class Pkg_RedgitInstallerScript
 		$this->createConfigFolders();
 
 		// Next changes will be applied only to new installations
-		if ($type == 'update' || $this->is25update())
+		if ($type === 'update' || $this->is25update())
 		{
 			// Run update scripts
 			$this->runUpdateScriptsMethod($parent, 'postflight');
