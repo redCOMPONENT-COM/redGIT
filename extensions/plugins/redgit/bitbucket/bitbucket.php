@@ -62,8 +62,17 @@ class PlgRedgitBitbucket extends RedgitPlugin
 
 		try
 		{
+			if ($git->hasChanges())
+			{
+				$git->add('.');
+
+				$message = Application::getStationConfiguration()->get('default_commit_message', '[server] Latest version online');
+
+				$git->commit($message);
+			}
+
 			$git->fetch('origin', $config->get('git_branch', 'master'));
-			$git->reset('--hard', 'FETCH_HEAD');
+			$git->rebase('origin/' . $config->get('git_branch', 'master'));
 		}
 		catch (Exception $e)
 		{
