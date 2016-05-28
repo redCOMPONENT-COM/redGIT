@@ -54,6 +54,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
 				. " -p'" . $dbPassword . "'"
 				. " --default-character-set=utf8"
+				. " --routines"
 				. " " . $dbName . " --result-file=" . $dumpPath;
 
 		exec($command, $output, $result);
