@@ -310,7 +310,16 @@ abstract class Application
 
 		try
 		{
-			$gitWrapper = new GitWrapper;
+			$path = null;
+
+			if ($path == null && strtolower(PHP_OS) == 'linux')
+			{
+				$path = exec("which git");
+
+				empty($path) && $path = null;
+			}
+
+			$gitWrapper = new GitWrapper($path);
 			$gitWrapper->setPrivateKey($privateKey, $sshPort, $binWrapperPath);
 
 			$git = $gitWrapper->workingCopy($repository);
