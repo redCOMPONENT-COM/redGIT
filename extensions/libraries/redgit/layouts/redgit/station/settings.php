@@ -47,6 +47,8 @@ extract($displayData);
 				<dd><?php echo $config->get('ssh_private_key'); ?></dd>
 				<dt><?php echo JText::_('LIB_REDGIT_STATION_FIELD_SSH_WRAPPER_FOLDER'); ?>:</dt>
 				<dd><?php echo $config->get('ssh_wrapper_folder'); ?></dd>
+				<dt><?php echo JText::_('LIB_REDGIT_STATION_FIELD_GIT_PATH'); ?>:</dt>
+				<dd><?php echo $config->get('git_path'); ?></dd>
 			</dl>
 		</div>
 		<div id="permissions" class="tab-pane">

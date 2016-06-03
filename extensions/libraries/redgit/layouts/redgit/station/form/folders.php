@@ -44,3 +44,10 @@ extract($displayData);
 		echo $form->getInput('ssh_wrapper_folder');
 	?>
 </div>
+<div class="form-group">
+	<?php
+	echo $form->getLabel('git_path');
+	echo $form->getInput('git_path');
+	?>
+</div>
+
