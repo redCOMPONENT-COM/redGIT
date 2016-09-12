@@ -52,6 +52,7 @@ gulp.task('copy:' + baseTask + ':library',
 	return gulp.src([
 		extPath + '/*(LICENSE|library.php)',
 		extPath + '/cli/**',
+		extPath + '/form/**',
 		extPath + '/installer/**',
 		extPath + '/language/**',
 		extPath + '/layout/**',
