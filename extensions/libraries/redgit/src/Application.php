@@ -229,7 +229,7 @@ abstract class Application
 	{
 		if (null === self::$version)
 		{
-			$xmlfile = JPATH_SITE . '/administrator/components/com_redgit/redgit.xml';
+			$xmlfile = JPATH_SITE . '/administrator/manifests/packages/pkg_redgit.xml';
 			self::$version = 'Unknown';
 
 			if (file_exists($xmlfile))
