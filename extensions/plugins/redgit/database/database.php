@@ -33,9 +33,39 @@ class PlgRedgitDatabase extends RedgitPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @throws  Exception  Database config was not found or there was an error
+	 * @throws  RuntimeException  Database config was not found or there was an error
 	 */
 	protected function dumpDatabase()
+	{
+		$dbName = JFactory::getConfig()->get('db');
+		$oldDump = $this->getDumpFolder() . '/' . $dbName . '.sql';
+
+		if (file_exists($oldDump) && !unlink($oldDump))
+		{
+			throw new RuntimeException("Unable to delete old db dump");
+		}
+
+		$dbStructureFile = $this->getDumpFolder() . '/' . $dbName . '_structure.sql';
+		$dbDataFile = $this->getDumpFolder() . '/' . $dbName . '_data.sql';
+
+		$this->dumpDatabaseStructure($dbStructureFile);
+		$this->dumpDatabaseData($dbDataFile);
+
+		return true;
+	}
+
+	/**
+	 * Dump database structure.
+	 *
+	 * @param   string  $dumpPath  Path to the file where to store information
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  RuntimeException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function dumpDatabaseStructure($dumpPath)
 	{
 		$config = JFactory::getConfig();
 
@@ -46,22 +76,69 @@ class PlgRedgitDatabase extends RedgitPlugin
 
 		if (!$dbHost || !$dbUser || !$dbPassword || !$dbName)
 		{
-			throw new Exception("Could not load database information");
+			throw new RuntimeException("Could not load database information");
 		}
-
-		$dumpPath = $this->getDumpPath();
 
 		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
 				. " -p'" . $dbPassword . "'"
 				. " --default-character-set=utf8"
-				. " --routines"
+				. " --routines --no-data"
 				. " " . $dbName . " --result-file=" . $dumpPath;
 
 		exec($command, $output, $result);
 
 		if ($result)
 		{
-			throw new Exception("Could not dump database: (" . $result . '): ' . implode("\n", $output));
+			throw new RuntimeException("Could not dump database: (" . $result . '): ' . implode("\n", $output));
+		}
+
+		return true;
+	}
+
+	/**
+	 * Dump database data.
+	 *
+	 * @param   string  $dumpPath  Path to the file where to store information
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  RuntimeException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function dumpDatabaseData($dumpPath)
+	{
+		$config = JFactory::getConfig();
+		$params = $this->getParams();
+
+		$dbHost     = $config->get('host');
+		$dbUser     = $config->get('user');
+		$dbPassword = $config->get('password');
+		$dbName     = $config->get('db');
+
+		if (!$dbHost || !$dbUser || !$dbPassword || !$dbName)
+		{
+			throw new RuntimeException("Could not load database information");
+		}
+
+		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
+				. " -p'" . $dbPassword . "'"
+				. " --default-character-set=utf8"
+				. " --no-create-info"
+				. " " . $dbName . " --result-file=" . $dumpPath;
+
+		$excludedTablesData = array_filter((array) $params->get('db_exclude_tables_data', array()));
+
+		foreach ($excludedTablesData as $tableName)
+		{
+			$command .= " --ignore-table=" . $dbName . '.' . $tableName;
+		}
+
+		exec($command, $output, $result);
+
+		if ($result)
+		{
+			throw new RuntimeException("Could not dump database: (" . $result . '): ' . implode("\n", $output));
 		}
 
 		return true;
@@ -192,6 +269,89 @@ class PlgRedgitDatabase extends RedgitPlugin
 	 */
 	protected function restoreDatabase()
 	{
+		// Empty database before
+		try
+		{
+			$this->emptyDatabase();
+		}
+		catch (Exception $e)
+		{
+			throw new RuntimeException($e->getMessage());
+		}
+
+		$dbName = JFactory::getConfig()->get('db');
+		$oldDump = $this->getDumpFolder() . '/' . $dbName . '.sql';
+
+		if (file_exists($oldDump))
+		{
+			return $this->restoreLegacyDatabase();
+		}
+
+		$dbStructureFile = $this->getDumpFolder() . '/' . $dbName . '_structure.sql';
+		$dbDataFile = $this->getDumpFolder() . '/' . $dbName . '_data.sql';
+
+		$this->restoreDatabaseDump($dbStructureFile);
+		$this->restoreDatabaseDump($dbDataFile);
+
+		return true;
+	}
+
+	/**
+	 * Restore a database dump
+	 *
+	 * @param   string  $dumpFile  File to restore
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  RuntimeException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function restoreDatabaseDump($dumpFile)
+	{
+		$config = JFactory::getConfig();
+
+		$dbHost     = $config->get('host');
+		$dbUser     = $config->get('user');
+		$dbPassword = $config->get('password');
+		$dbName     = $config->get('db');
+
+		if (!$dbHost || !$dbUser || !$dbPassword || !$dbName)
+		{
+			throw new Exception("Could not load database information");
+		}
+
+		if (!file_exists($dumpFile))
+		{
+			throw new RuntimeException("Dump file does not exist");
+		}
+
+		$command = "mysql -h " . $dbHost . " -u " . $dbUser
+				. " -p'" . $dbPassword . "'"
+				. " --default-character-set=utf8"
+				. " " . $dbName . " < " . $dumpFile;
+
+		exec($command, $output, $result);
+
+		if ($result)
+		{
+			throw new RuntimeException("Could not restore database dump: (" . $dumpFile . '): ' . implode("\n", $output));
+		}
+
+		return true;
+	}
+
+	/**
+	 * Restore backups done with old dump method.
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  RuntimeException
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function restoreLegacyDatabase()
+	{
 		$config = JFactory::getConfig();
 
 		$dbHost     = $config->get('host');
@@ -208,7 +368,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 
 		if (!file_exists($dumpPath))
 		{
-			throw new Exception("Dump file does not exist");
+			throw new RuntimeException("Dump file does not exist (" . $dumpPath . ")");
 		}
 
 		// Empty database first to
@@ -218,7 +378,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 		}
 		catch (Exception $e)
 		{
-			throw new Exception($e->getMessage());
+			throw new RuntimeException($e->getMessage());
 		}
 
 		$command = "mysql -h " . $dbHost . " -u " . $dbUser
@@ -230,8 +390,10 @@ class PlgRedgitDatabase extends RedgitPlugin
 
 		if ($result)
 		{
-			throw new Exception("Could not dump database: (" . $result . '): ' . implode("\n", $output));
+			throw new RuntimeException("Could not dump database: (" . $result . '): ' . implode("\n", $output));
 		}
+
+		return true;
 	}
 
 	/**
@@ -275,37 +437,23 @@ class PlgRedgitDatabase extends RedgitPlugin
 	}
 
 	/**
-	 * Get the path to the database dump.
+	 * Get the base dump folder.
 	 *
 	 * @return  string
 	 *
-	 * @throws  Exception  If db name is not set or dump folder does not exist
+	 * @throws  RuntimeException
 	 *
-	 * @since   1.0.7
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getDumpPath()
+	private function getDumpFolder()
 	{
-		if (null === $this->dumpPath)
+		$dumpFolder = JPATH_SITE . '/redgit/sql';
+
+		if (!is_dir($dumpFolder) && !mkdir($dumpFolder, 0755, true))
 		{
-			$config = JFactory::getConfig();
-
-			$dbName = $config->get('db');
-
-			if (!$dbName)
-			{
-				throw new Exception("Could not load database information");
-			}
-
-			$dumpFolder = JPATH_SITE . '/redgit/sql';
-
-			if (!is_dir($dumpFolder) && !mkdir($dumpFolder, 0755, true))
-			{
-				throw new Exception("Dump folder does not exist");
-			}
-
-			$this->dumpPath = $dumpFolder . '/' . $dbName . '.sql';
+			throw new RuntimeException("Dump folder does not exist");
 		}
 
-		return $this->dumpPath;
+		return $dumpFolder;
 	}
 }
