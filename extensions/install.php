@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
  * Package installer
  *
  * @since  1.0.0
- *
  */
 class Pkg_RedgitInstallerScript
 {
