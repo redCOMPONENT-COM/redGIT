@@ -3,7 +3,7 @@
  * @package     Redgit.Library
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2015 - 2016 redcomponent.com. All rights reserved.
+ * @copyright   Copyright (C) 2015 - 2017 redcomponent.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -309,7 +309,7 @@ abstract class Application
 		}
 
 		$gitPath = $stationConfig->get('git_path', null);
-		
+
 		if (empty($gitPath))
 		{
 			$gitPath = null;
