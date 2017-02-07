@@ -35,6 +35,7 @@
 		<!-- Plugins -->
 		<file type="plugin" id="redgit" group="system" enabled="true">plugins/system/redgit</file>
 		<file type="plugin" id="bitbucket" group="redgit" enabled="true">plugins/redgit/bitbucket</file>
+		<file type="plugin" id="gitlab" group="redgit" enabled="true">plugins/redgit/gitlab</file>
 		<file type="plugin" id="database" group="redgit" enabled="true">plugins/redgit/database</file>
 	</files>
 </extension>

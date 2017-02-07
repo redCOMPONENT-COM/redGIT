@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="redgit" method="upgrade">
+	<name>PLG_REDGIT_GITLAB</name>
+	<creationDate>February 2017</creationDate>
+	<author>redCOMPONENT</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<copyright>Copyright (C) 2015 - 2017 redCOMPONENT.com. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later, see LICENSE.</license>
+	<version>1.0.0</version>
+	<description>PLG_REDGIT_GITLAB_XML_DESCRIPTION</description>
+
+	<files>
+		<folder>language</folder>
+		<filename plugin="gitlab">gitlab.php</filename>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					type="text"
+					name="gitlab_url"
+					class="input-xxlarge"
+					label="PLG_REDGIT_GITLAB_PARAM_FIELD_GIT_GITLAB_URL"
+					hint="PLG_REDGIT_GITLAB_PARAM_FIELD_GIT_GITLAB_URL_HINT"
+				/>
+				<field
+					type="text"
+					name="gitlab_token"
+					class="input-xxlarge"
+					label="PLG_REDGIT_GITLAB_PARAM_FIELD_GIT_GITLAB_TOKEN"
+					hint="PLG_REDGIT_GITLAB_PARAM_FIELD_GIT_GITLAB_TOKEN_HINT"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+
+</extension>
