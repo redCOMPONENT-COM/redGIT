@@ -93,8 +93,8 @@ class RedgitControllerCallback extends JControllerLegacy
 
 		$callback->save($tableData);
 
-		$this->setRedirect(JUri::root());
-
-		return true;
+		Application::sendHeaders();
+		echo 'Ok';
+		$app->close();
 	}
 }
