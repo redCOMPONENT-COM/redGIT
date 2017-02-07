@@ -6,7 +6,7 @@
 	},
 	"packages"   : ["redgit"],
 	"plugins"    : {
-		"redgit" : ["bitbucket", "database"],
+		"redgit" : ["bitbucket", "database", "gitlab"],
 		"system" : ["redgit"]
 	}
 }
