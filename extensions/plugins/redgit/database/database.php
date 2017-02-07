@@ -125,6 +125,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 				. " -p'" . $dbPassword . "'"
 				. " --default-character-set=utf8"
 				. " --no-create-info"
+				. " --skip-extended-insert"
 				. " " . $dbName . " --result-file=" . $dumpPath;
 
 		$excludedTablesData = array_filter((array) $params->get('db_exclude_tables_data', array()));
