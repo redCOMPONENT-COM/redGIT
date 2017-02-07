@@ -143,7 +143,7 @@ abstract class Application
 	 *
 	 * @return  \Monolog\Logger
 	 *
-	 * @throws  Exception   Log folder does not exist or is not writable
+	 * @throws  \Exception   Log folder does not exist or is not writable
 	 */
 	public static function getLog()
 	{
@@ -308,9 +308,16 @@ abstract class Application
 			$binWrapperPath .= '/git-ssh-wrapper.sh';
 		}
 
+		$gitPath = $stationConfig->get('git_path', null);
+		
+		if (empty($gitPath))
+		{
+			$gitPath = null;
+		}
+
 		try
 		{
-			$gitWrapper = new GitWrapper;
+			$gitWrapper = new GitWrapper($gitPath);
 			$gitWrapper->setPrivateKey($privateKey, $sshPort, $binWrapperPath);
 
 			$git = $gitWrapper->workingCopy($repository);

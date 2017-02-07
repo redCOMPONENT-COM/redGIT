@@ -69,6 +69,14 @@
 			hint="LIB_REDGIT_STATION_FIELD_SSH_WRAPPER_FOLDER_HINT"
 			class="form-control"
 		/>
+		<field
+			name="git_path"
+			type="text"
+			label="LIB_REDGIT_STATION_FIELD_GIT_PATH"
+			description="LIB_REDGIT_STATION_FIELD_GIT_PATH_DESC"
+			hint="LIB_REDGIT_STATION_FIELD_GIT_PATH_HINT"
+			class="form-control"
+		/>
 	</fieldset>
 	<fieldset name="permissions" label="LIB_REDGIT_STATION_FIELDSET_PERMISSIONS">
 		<field
