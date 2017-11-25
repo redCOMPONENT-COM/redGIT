@@ -93,6 +93,7 @@ class RedgitControllerGit extends JControllerLegacy
 			$app = JFactory::getApplication();
 
 			$git = Application::getGit();
+			$git->getWrapper()->setTimeout(1200);
 
 			if ($git->hasChanges())
 			{
