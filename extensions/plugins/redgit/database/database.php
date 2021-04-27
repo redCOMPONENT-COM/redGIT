@@ -45,8 +45,8 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new RuntimeException("Unable to delete old db dump");
 		}
 
-		$dbStructureFile = $this->getDumpFolder() . '/' . $dbName . '_structure.sql';
-		$dbDataFile = $this->getDumpFolder() . '/' . $dbName . '_data.sql';
+		$dbStructureFile = $this->getDumpFolder() . '/' . $dbName . '_structure';
+		$dbDataFile      = $this->getDumpFolder() . '/' . $dbName . '_data';
 
 		$this->dumpDatabaseStructure($dbStructureFile);
 		$this->dumpDatabaseData($dbDataFile);
@@ -80,10 +80,13 @@ class PlgRedgitDatabase extends RedgitPlugin
 		}
 
 		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
-				. " -p'" . $dbPassword . "'"
-				. " --default-character-set=utf8"
-				. " --routines --no-data"
-				. " " . $dbName . " --result-file=" . $dumpPath;
+			. " -p'" . $dbPassword . "'"
+			. " --default-character-set=utf8"
+			. " --routines --no-data"
+			. ($this->params->get('skip_definer', 0) == 1 ? ' --skip-definer' : '')
+			. " " . $dbName;
+
+		$command = $this->dumpDatabaseCommandExtend($command, $dumpPath);
 
 		exec($command, $output, $result);
 
@@ -125,7 +128,10 @@ class PlgRedgitDatabase extends RedgitPlugin
 				. " -p'" . $dbPassword . "'"
 				. " --default-character-set=utf8"
 				. " --no-create-info"
-				. " " . $dbName . " --result-file=" . $dumpPath;
+				. " --skip-triggers"
+				. " " . $dbName;
+
+		$command = $this->dumpDatabaseCommandExtend($command, $dumpPath);
 
 		$excludedTablesData = array_filter((array) $params->get('db_exclude_tables_data', array()));
 
@@ -142,6 +148,27 @@ class PlgRedgitDatabase extends RedgitPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param   string  $command   Command
+	 * @param   string  $dumpPath  Path
+	 * @return string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function dumpDatabaseCommandExtend($command, $dumpPath)
+	{
+		switch ($this->params->get('compress'))
+		{
+			case 'gz':
+				$command .= ' | gzip -c > ' . $dumpPath . '.sql.gz';
+				break;
+			default:
+				$command .= " --result-file=" . $dumpPath . '.sql';
+				break;
+		}
+
+		return $command;
 	}
 
 	/**
@@ -287,8 +314,8 @@ class PlgRedgitDatabase extends RedgitPlugin
 			return $this->restoreDatabaseDump($oldDump);
 		}
 
-		$dbStructureFile = $this->getDumpFolder() . '/' . $dbName . '_structure.sql';
-		$dbDataFile = $this->getDumpFolder() . '/' . $dbName . '_data.sql';
+		$dbStructureFile = $this->getDumpFolder() . '/' . $dbName . '_structure';
+		$dbDataFile = $this->getDumpFolder() . '/' . $dbName . '_data';
 
 		$this->restoreDatabaseDump($dbStructureFile);
 		$this->restoreDatabaseDump($dbDataFile);
@@ -321,15 +348,27 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new Exception("Could not load database information");
 		}
 
+		$command = "mysql -h " . $dbHost . " -u " . $dbUser
+				. " -p'" . $dbPassword . "'"
+				. " --default-character-set=utf8"
+				. " " . $dbName;
+
+		switch ($this->params->get('compress'))
+		{
+			case 'gz':
+				$dumpFile .= '.sql.gz';
+				$command = "gunzip < " . $dumpFile . $command;
+				break;
+			default:
+				$dumpFile .= '.sql';
+				$command .= " < " . $dumpFile;
+				break;
+		}
+
 		if (!file_exists($dumpFile))
 		{
 			throw new RuntimeException("Dump file does not exist");
 		}
-
-		$command = "mysql -h " . $dbHost . " -u " . $dbUser
-				. " -p'" . $dbPassword . "'"
-				. " --default-character-set=utf8"
-				. " " . $dbName . " < " . $dumpFile;
 
 		exec($command, $output, $result);
 
