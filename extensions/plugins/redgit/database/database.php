@@ -131,14 +131,14 @@ class PlgRedgitDatabase extends RedgitPlugin
 				. " --skip-triggers"
 				. " " . $dbName;
 
-		$command = $this->dumpDatabaseCommandExtend($command, $dumpPath);
-
 		$excludedTablesData = array_filter((array) $params->get('db_exclude_tables_data', array()));
 
 		foreach ($excludedTablesData as $tableName)
 		{
 			$command .= " --ignore-table=" . $dbName . '.' . $tableName;
 		}
+
+		$command = $this->dumpDatabaseCommandExtend($command, $dumpPath);
 
 		exec($command, $output, $result);
 
