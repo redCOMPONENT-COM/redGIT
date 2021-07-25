@@ -356,7 +356,7 @@ class Pkg_RedgitInstallerScript
 
 			$updateFolderPath = $baseUpdatesFolder . '/' . $updateFolder;
 
-            $fileNames = JFolder::files($updateFolderPath);
+			$fileNames = JFolder::files($updateFolderPath);
 
 			if (!$fileNames)
 			{
@@ -554,7 +554,7 @@ class Pkg_RedgitInstallerScript
 		$installer = $this->getInstaller();
 		$manifest  = $this->getManifest($parent);
 		$src       = $parent->getParent()->getPath('source');
-        $nodes     = $manifest->files;
+		$nodes     = $manifest->files;
 
 		if ($nodes)
 		{
