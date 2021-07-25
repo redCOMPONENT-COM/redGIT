@@ -24,7 +24,7 @@ catch (Exception $e)
 
 require_once __DIR__ . '/helper.php';
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$moduleclassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 $stationConfiguration = Application::getStationConfiguration();
 $canPull = ModRedgit_RemoteHelper::canPull();
