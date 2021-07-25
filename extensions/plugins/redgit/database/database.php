@@ -83,7 +83,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 			. " -p'" . $dbPassword . "'"
 			. " --default-character-set=utf8"
 			. " --routines --no-data"
-			. ($this->params->get('skip_definer', 0) == 1 ? ' --skip-definer' : '')
+			. ($this->params->get('skip_definer', 1) == 1 ? ' --skip-definer' : '')
 			. " " . $dbName;
 
 		$command = $this->dumpDatabaseCommandExtend($command, $dumpPath);
