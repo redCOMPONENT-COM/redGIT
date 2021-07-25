@@ -356,7 +356,9 @@ class Pkg_RedgitInstallerScript
 
 			$updateFolderPath = $baseUpdatesFolder . '/' . $updateFolder;
 
-			if (!$fileNames = JFolder::files($updateFolderPath))
+			$fileNames = JFolder::files($updateFolderPath);
+
+			if (!$fileNames)
 			{
 				continue;
 			}
@@ -524,7 +526,7 @@ class Pkg_RedgitInstallerScript
 	 * @param   object  $type    type of change (install, update or discover_install)
 	 * @param   object  $parent  class calling this method
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.1.0
 	 */
@@ -552,8 +554,9 @@ class Pkg_RedgitInstallerScript
 		$installer = $this->getInstaller();
 		$manifest  = $this->getManifest($parent);
 		$src       = $parent->getParent()->getPath('source');
+		$nodes     = $manifest->files;
 
-		if ($nodes = $manifest->files)
+		if ($nodes)
 		{
 			foreach ($nodes->file as $node)
 			{
@@ -590,7 +593,7 @@ class Pkg_RedgitInstallerScript
 	/**
 	 * Create folders required by redGIT
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
 	private function createConfigFolders()
 	{
@@ -628,6 +631,7 @@ class Pkg_RedgitInstallerScript
 	 * @return  void
 	 *
 	 * @since   1.1.0
+	 * @throws  Exception
 	 */
 	private function registerNamespace($parent)
 	{

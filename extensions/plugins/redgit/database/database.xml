@@ -38,6 +38,25 @@
 					>
 					<option value="">JNONE</option>
 				</field>
+				<field
+					name="compress"
+					label="PLG_REDGIT_DATABASE_PARAM_FIELD_COMPRESS"
+					default=""
+					class="btn-group"
+					type="radio">
+					<option value="">JNONE</option>
+					<option value="gz">PLG_REDGIT_DATABASE_PARAM_COMPRESS_GZ</option>
+				</field>
+				<field
+					name="skip_definer"
+					label="PLG_REDGIT_DATABASE_PARAM_FIELD_SKIP_DEFINER"
+					description="PLG_REDGIT_DATABASE_PARAM_FIELD_SKIP_DEFINER_DESC"
+					default="1"
+					class="btn-group btn-group-yesno"
+					type="radio">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

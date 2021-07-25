@@ -34,7 +34,7 @@ gulp.task('clean:' + baseTask + ':manifest', function(cb) {
 
 // Composer
 gulp.task('composer:' + baseTask, function(cb) {
-	composer({ cwd: extPath }).on('end', cb);
+	composer({"d": extPath, "no-dev": true}).on('end', cb);
 });
 
 // Copy
