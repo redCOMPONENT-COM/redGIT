@@ -1,5 +1,5 @@
 {
-    "name": "redcomponent-com/redgit",
+    "name": "redweb/redgit",
     "type": "library",
     "description": "Version control system for Joomla!",
     "keywords": ["joomla", "git", "bitbucket", "github"],

@@ -20,6 +20,11 @@ gulp.task('release', ['composer:libraries.redgit'], function (cb) {
 		parser.parseString(data, function (err, result) {
 			var version = result.extension.version[0];
 
+			if (result.extension.releaseName[0])
+			{
+				version = version + '-' + result.extension.releaseName[0].toLowerCase();
+			}
+
 			var fileName = extension.name + '-v' + version + '.zip';
 
 			return gulp.src([
