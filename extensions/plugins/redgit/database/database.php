@@ -83,8 +83,9 @@ class PlgRedgitDatabase extends RedgitPlugin
 			. " -p'" . $dbPassword . "'"
 			. " --default-character-set=utf8"
 			. " --routines --no-data"
-			. ($this->params->get('skip_definer', 1) == 1 ? ' --skip-definer' : '')
-			. " " . $dbName;
+			. " " . $dbName
+			. "| sed -e 's/DEFINER[ ]*=[ ]*[^*]*\*/\*/'"
+			. "| sed -e 's/DEFINER=[^*]*\*/\*/'";
 
 		$command = $this->dumpDatabaseCommandExtend($command, $dumpPath);
 
@@ -164,7 +165,7 @@ class PlgRedgitDatabase extends RedgitPlugin
 				$command .= ' | gzip -c > ' . $dumpPath . '.sql.gz';
 				break;
 			default:
-				$command .= " --result-file=" . $dumpPath . '.sql';
+				$command .= ' > ' . $dumpPath . '.sql';
 				break;
 		}
 
