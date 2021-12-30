@@ -79,7 +79,10 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new RuntimeException("Could not load database information");
 		}
 
-		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
+		$exploded = explode(':', $dbHost);
+
+		$command = "mysqldump -h " . $exploded[0] . " -u " . $dbUser
+			. (!empty($exploded[1]) ? ' --port=' . $exploded[1] : '')
 			. " -p'" . $dbPassword . "'"
 			. " --default-character-set=utf8"
 			. " --routines --no-data"
@@ -125,7 +128,10 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new RuntimeException("Could not load database information");
 		}
 
-		$command = "mysqldump -h " . $dbHost . " -u " . $dbUser
+		$exploded = explode(':', $dbHost);
+
+		$command = "mysqldump -h " . $exploded[0] . " -u " . $dbUser
+				. (!empty($exploded[1]) ? ' --port=' . $exploded[1] : '')
 				. " -p'" . $dbPassword . "'"
 				. " --default-character-set=utf8"
 				. " --no-create-info"
@@ -349,7 +355,10 @@ class PlgRedgitDatabase extends RedgitPlugin
 			throw new Exception("Could not load database information");
 		}
 
-		$command = "mysql -h " . $dbHost . " -u " . $dbUser
+		$exploded = explode(':', $dbHost);
+
+		$command = "mysql -h " . $exploded[0] . " -u " . $dbUser
+				. (!empty($exploded[1]) ? ' --port=' . $exploded[1] : '')
 				. " -p'" . $dbPassword . "'"
 				. " --default-character-set=utf8"
 				. " " . $dbName;
